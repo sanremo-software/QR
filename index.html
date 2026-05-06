@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kassenbericht 305 + Zählprotokoll – Eiscafé Sanremo</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#d9d9d9;font-family:Arial,Helvetica,sans-serif;color:#111}
+.app{max-width:980px;margin:0 auto;padding:14px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 auto 12px;padding:10px;background:#f3f4f6;border:1px solid #bbb;border-radius:10px;max-width:210mm}
+button{border:0;border-radius:7px;background:#111;color:#fff;font-weight:700;padding:9px 12px;cursor:pointer;font-size:13px}
+.gray{background:#555}.red{background:#991b1b}.green{background:#166534}.blue{background:#1e40af}
+.page{width:210mm;min-height:297mm;background:#fff;margin:0 auto 18px;padding:10mm 11mm;box-shadow:0 2px 12px rgba(0,0,0,.25);position:relative;page-break-after:always}
+.page:last-child{page-break-after:auto}
+input,select{font-family:Arial,Helvetica,sans-serif;font-size:15px;border:0;background:transparent;width:100%;height:100%;padding:2px;text-align:center;font-weight:700}
+input[type=date]{font-size:14px}
+.right{text-align:right}.left{text-align:left}.blue{color:#244f94}.small{font-size:11px}.bold{font-weight:700}.center{text-align:center}
+/* Kopfbereich Kassenbericht */
+.kopf{display:grid;grid-template-columns:1fr 120px 150px;align-items:center;border-bottom:2px solid #244f94;margin-bottom:6px;padding-bottom:4px}
+.title{font-size:30px;font-weight:500;color:#244f94;display:flex;align-items:center}
+.nr,.date{display:flex;align-items:center;gap:6px;color:#244f94;font-weight:700}
+.nr{justify-content:center}
+.date{justify-content:flex-end;padding-right:6px}
+.nr input{width:60px}
+.date input{width:120px;text-align:center}
+.nr input,.date input{border-bottom:1px solid #244f94;color:#111;font-size:18px;height:26px;text-align:center}
+.topline{display:grid;grid-template-columns:1fr 112px 32px;border-bottom:2px solid #244f94;color:#244f94;font-size:13px;font-weight:700;margin-top:8px}
+.topline div{padding:2px 4px}
+.topline input{font-size:20px;text-align:right;color:#111}
+.kassen{display:grid;grid-template-columns:88mm 27mm 32mm 27mm 22mm;border-left:0;border-top:0}
+.cell{border-right:1px solid #244f94;border-bottom:1px solid #244f94;min-height:10.8mm;padding:2px 4px}
+.h{color:#244f94;font-weight:700;font-size:13px}
+.subh{font-size:11px;color:#244f94}
+.amount input{text-align:right;font-size:22px}
+.sectionlabel{color:#244f94;font-size:12px;font-weight:700}
+.desc input{text-align:left;font-size:18px}
+.sumlabel{color:#244f94;font-weight:700;text-align:right}
+.sumamount input{font-size:21px;text-align:right;background:#f8f8f8}
+.bottom-grid{display:grid;grid-template-columns:90mm 35mm 30mm 35mm;margin-top:1mm}
+.bottom-cell{border-bottom:1px solid #244f94;min-height:9mm;padding:2px 4px}
+.bottom-cell input{font-size:20px;text-align:right}
+.vatlabel{font-size:20px;text-align:center}
+.footerline{display:grid;grid-template-columns:80mm 55mm 45mm;margin-top:4mm;align-items:end}
+.footerline div{border-bottom:1px solid #244f94;min-height:10mm}
+.footerline .label{border:0;color:#244f94;font-weight:700;font-size:13px}
+.signature{display:flex;justify-content:space-between;margin-top:20px;gap:40px}
+.signature div{flex:1;border-bottom:1px solid #000;height:35px;font-size:13px;font-weight:700;padding-top:20px}
+.load-btn{background:#1e40af;border:none;border-radius:6px;color:white;font-size:12px;padding:3px 8px;margin-left:8px;cursor:pointer;white-space:nowrap}
+.prev-row{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+
+/* Zählprotokoll Tabellen */
+.cash-table{width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed;margin-top:6px}
+.cash-table th,.cash-table td{border:1px solid #000;padding:4px;height:27px}
+.cash-table th{text-align:center;color:#b22222;background:#fff}
+.cash-table td.value{text-align:right;width:32%;font-weight:700;padding-right:10px}
+.cash-table td.qty{width:24%;padding:0;text-align:center}
+.cash-table td.total{text-align:right;width:34%;padding-right:10px;font-weight:700}
+.cash-table td.extra{width:10%;text-align:right;background:#ffc000;font-weight:700;padding-right:10px}
+.qty-wrap{display:grid;grid-template-columns:34px 1fr 34px;height:100%}
+.qty-wrap button{border:0;border-radius:0;background:#eee;color:#000;font-size:16px;padding:0;font-weight:900;cursor:pointer}
+.qty-wrap input{color:#0047ab;font-weight:700}
+.summary{margin-top:12px;width:100%;border-collapse:collapse;font-size:15px}
+.summary td{border:1px solid #000;padding:5px;height:28px}
+.summary .label{font-weight:700;background:#b4c7e7;text-align:center}
+.yellow{background:#ffc000;text-align:right;font-weight:900}
+.greenCell{background:#00b050;text-align:right;font-weight:900}
+.signs{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:18px;font-size:13px;font-weight:700}
+.sign{border-bottom:1px solid #000;height:35px}
+h1{font-size:22px;margin:0 0 10px;text-align:center;text-transform:uppercase;color:#244f94}
+
+@media print{
+  body{background:#fff}
+  .app{padding:0}
+  .toolbar,.load-btn,.qty-wrap button{display:none!important}
+  .page{box-shadow:none;margin:0;width:210mm;min-height:297mm;padding:10mm 11mm;overflow:visible}
+  .qty-wrap input{height:22px}
+  @page{size:A4;margin:0}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="toolbar">
+  <button onclick="window.print()">📄 Drucken / PDF</button>
+  <button class="gray" onclick="setToday()">📅 Heute</button>
+  <button class="green" onclick="saveDay()">💾 Tag speichern</button>
+  <button class="red" onclick="clearAll()">🗑️ Alles leeren</button>
+</div>
+
+<!-- ================= SEITE 1: KASSENBERICHT 305 ================= -->
+<section class="page">
+  <div class="kopf">
+    <div class="title">Kassenbericht</div>
+    <div class="nr">Nr.<input id="kbNr" value="1"></div>
+    <div class="date">Datum<input id="kbDate" type="date"></div>
+  </div>
+  
+  <div class="topline">
+    <div>Kassenbestand bei Geschäftsschluss</div>
+    <div><input id="closingCash" class="right" readonly placeholder="0,00"></div>
+    <div class="book">Buchungs-<br>vermerke</div>
+  </div>
+
+  <div class="kassen">
+    <!-- Wareneinkäufe -->
+    <div class="cell h">Ausgaben im Laufe des Tages<br><span class="subh">Wareneinkäufe und Warennebenkosten</span></div>
+    <div class="cell h center">Vorsteuer</div>
+    <div class="cell h center">Netto-/Brutto-<br>Betrag</div>
+    <div class="cell"></div><div class="cell"></div>
+    
+    <div class="cell desc"><input id="expDesc1" class="left" placeholder="Eis, Becher"></div>
+    <div class="cell"></div><div class="cell amount"><input id="exp1" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="expDesc2" class="left" placeholder="Zutaten"></div>
+    <div class="cell"></div><div class="cell amount"><input id="exp2" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="expDesc3" class="left" placeholder="Verpackung"></div>
+    <div class="cell"></div><div class="cell amount"><input id="exp3" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="expDesc4" class="left" placeholder=""></div>
+    <div class="cell"></div><div class="cell amount"><input id="exp4" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="expDesc5" class="left" placeholder=""></div>
+    <div class="cell"></div><div class="cell amount"><input id="exp5" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    
+    <div class="cell sectionlabel">Geschäftsausgaben</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="bizDesc1" class="left" value="Gutschein"></div>
+    <div class="cell"></div><div class="cell amount"><input id="biz1" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="bizDesc2" class="left" placeholder="Porto, Büro"></div>
+    <div class="cell"></div><div class="cell amount"><input id="biz2" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    
+    <div class="cell sectionlabel">Privatentnahmen</div><div class="cell center">–</div><div class="cell center">–</div><div class="cell"></div><div class="cell"></div>
+    <div class="cell sectionlabel">Sonstige Ausgaben</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="otherDesc1" class="left" value="EC-Gebühren"></div>
+    <div class="cell"></div><div class="cell amount"><input id="other1" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="otherDesc2" class="left" placeholder=""></div>
+    <div class="cell"></div><div class="cell amount"><input id="other2" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell desc"><input id="otherDesc3" class="left" placeholder=""></div>
+    <div class="cell"></div><div class="cell amount"><input id="other3" inputmode="decimal" oninput="calcKasse()"></div><div class="cell"></div><div class="cell"></div>
+    
+    <div class="cell"></div><div class="cell subh center">Vorsteuer bei<br>Nettobetrag ▶</div><div class="cell"></div>
+    <div class="cell sumamount"><input id="expensesTotal" readonly placeholder="0,00"></div><div class="cell"></div>
+    <div class="cell"></div><div class="cell"></div><div class="cell sumlabel">Summe</div>
+    <div class="cell sumamount"><input id="summe" readonly placeholder="0,00"></div><div class="cell"></div>
+    <div class="cell"></div><div class="cell"></div>
+    <div class="cell sumlabel">abzüglich<br>Kassenbestand des Vortages</div>
+    <div class="cell sumamount">
+      <div class="prev-row">
+        <input id="prevSaldo" inputmode="decimal" oninput="calcKasse()" style="flex:1; min-width:60px">
+        <button type="button" class="load-btn" onclick="loadPreviousSaldo()">📂 Vortag</button>
+      </div>
+    </div>
+    <div class="cell"></div>
+    <div class="cell"></div><div class="cell"></div><div class="cell sumlabel">Kasseneingang</div>
+    <div class="cell sumamount"><input id="cashEntry" readonly placeholder="0,00"></div><div class="cell"></div>
+  </div>
+
+  <!-- sonstige Einnahmen / USt -->
+  <div class="bottom-grid">
+    <div class="bottom-cell sectionlabel">abzüglich sonstige Einnahmen</div>
+    <div class="bottom-cell vatlabel">19%</div>
+    <div class="bottom-cell"><input id="vat19" inputmode="decimal" oninput="calcKasse()" placeholder="0,00"></div>
+    <div class="bottom-cell"></div>
+    <div class="bottom-cell"></div>
+    <div class="bottom-cell vatlabel">7%</div>
+    <div class="bottom-cell"><input id="vat7" inputmode="decimal" oninput="calcKasse()" placeholder="0,00"></div>
+    <div class="bottom-cell"></div>
+    <div class="bottom-cell"></div>
+    <div class="bottom-cell"></div>
+    <div class="bottom-cell"><input id="miscIncome" inputmode="decimal" oninput="calcKasse()" placeholder="Sonstige"></div>
+    <div class="bottom-cell"></div>
+  </div>
+
+  <div class="footerline">
+    <div class="label">Kundenzahl (optional)</div>
+    <div class="label">Einnahmen (Tageslosung)</div>
+    <div><input id="dailyTotal" readonly placeholder="0,00" style="font-weight:800"></div>
+  </div>
+  <div class="footerline">
+    <div class="label">Betrag/Kunde</div>
+    <div class="label">Unterschrift</div>
+    <div></div>
+  </div>
+  
+  <div class="signature">
+    <div>Kassenverantwortliche/r</div>
+    <div>Geprüft / Kontrolle</div>
+  </div>
+  <div class="small" style="text-align:center; margin-top:12px; color:#555">* Automatische Berechnung nach 305er Systematik | alle Beträge in Euro</div>
+</section>
+
+<!-- ================= SEITE 2: ZÄHLPROTOKOLL ================= -->
+<section class="page">
+  <h1>Zählprotokoll Kasse</h1>
+  <table class="cash-table">
+    <thead><tr><th>Stückelung</th><th>Anzahl</th><th>Total</th><th></th></tr></thead>
+    <tbody id="cashBody"></tbody>
+  </table>
+  
+  <table class="summary">
+    <tr><td class="label">Vortag (aus Kassenbericht)</td><td><input id="zpPrev" inputmode="decimal" readonly style="background:#f0f0f0"></td>
+        <td><button type="button" class="load-btn" onclick="syncPrevFromKasse()">Aus Bericht übernehmen</button></td></tr>
+    <tr><td class="label">Total Bargeld gezählt</td><td class="yellow" id="grandTotalCell">- €</td><td></td></tr>
+    <tr><td class="label">Soll Bargeld (Kassenbericht Schluss)</td><td class="yellow" id="zpSollCell">- €</td><td></td></tr>
+    <tr><td class="label">Differenz (gezählt − Soll)</td><td class="greenCell" id="zpDiffCell">- €</td><td></td></tr>
+  </table>
+  
+  <div class="signs">
+    <div><div class="sign"></div>Erstellt / gezählt</div>
+    <div><div class="sign"></div>Kontrolliert</div>
+  </div>
+  <div class="small" style="text-align:center; margin-top:15px">* Münzen und Scheine manuell erfassen – Differenz wird sofort berechnet</div>
+</section>
+</div>
+
+<script>
+// --------------------------------------------------------------
+// 1. Gemeinsame Hilfsfunktionen
+// --------------------------------------------------------------
+function euro(v){
+  if(isNaN(v) || Math.abs(v)<0.005) return '- €';
+  return v.toFixed(2).replace('.',',') + ' €';
+}
+function val(id){
+  let el = document.getElementById(id);
+  if(!el) return 0;
+  let raw = el.value.trim().replace(',','.');
+  let num = parseFloat(raw);
+  return isNaN(num) ? 0 : num;
+}
+function put(id, v){
+  let el = document.getElementById(id);
+  if(el){
+    if(Math.abs(v)<0.005) el.value = '';
+    else el.value = v.toFixed(2).replace('.',',');
+  }
+}
+function setToday(){
+  let d = new Date().toISOString().slice(0,10);
+  document.getElementById('kbDate').value = d;
+}
+function isoKey(d){ return d.toISOString().slice(0,10); }
+
+// --------------------------------------------------------------
+// 2. Kassenbericht 305 – Berechnung (aktualisiert auch Zählprotokoll-Felder)
+// --------------------------------------------------------------
+function calcKasse(){
+  // Ausgaben
+  const expenses = val('exp1')+val('exp2')+val('exp3')+val('exp4')+val('exp5')+
+                   val('biz1')+val('biz2')+
+                   val('other1')+val('other2')+val('other3');
+  const prev = val('prevSaldo');
+  const vat19 = val('vat19');
+  const vat7 = val('vat7');
+  const misc = val('miscIncome');
+  const daily = vat19 + vat7 + misc;
+  
+  const closing = prev + daily - expenses;
+  const summe = closing + expenses;
+  const cashEntry = summe - prev;
+  
+  put('closingCash', closing);
+  put('expensesTotal', expenses);
+  put('summe', summe);
+  put('cashEntry', cashEntry);
+  put('dailyTotal', daily);
+  
+  // Zählprotokoll-Vortag und Soll aktualisieren
+  const zpPrevField = document.getElementById('zpPrev');
+  if(zpPrevField) zpPrevField.value = (Math.abs(prev)<0.005 ? '' : prev.toFixed(2).replace('.',','));
+  updateZaehlprotokollSoll(closing);
+}
+// Soll im Zählprotokoll aktualisieren (Schlussbestand)
+function updateZaehlprotokollSoll(closing){
+  const sollElem = document.getElementById('zpSollCell');
+  if(sollElem) sollElem.innerText = euro(closing);
+  // Differenz neu berechnen (gezählter Betrag ist global verfügbar)
+  recalcDiff();
+}
+
+// --------------------------------------------------------------
+// 3. Zählprotokoll – Noten & Münzen
+// --------------------------------------------------------------
+const notes = [100,50,20,10,5];
+const coins = [2,1,0.5,0.2,0.1,0.05,0.02,0.01];
+let currentCountedTotal = 0;
+
+function qtyInput(idx){
+  return `<div class="qty-wrap"><button type="button" onclick="chgQty('${idx}',-1)">−</button>
+          <input id="q_${idx}" value="0" inputmode="numeric" oninput="calcZaehlung()">
+          <button type="button" onclick="chgQty('${idx}',1)">+</button></div>`;
+}
+function row(v, idx){
+  return `<tr><td class="value">${v.toFixed(2).replace('.',',')} €</td>
+          <td class="qty">${qtyInput(idx)}</td>
+          <td class="total" id="t_${idx}">- €</td>
+          <td class="extra"></td></tr>`;
+}
+function totalRow(id, label){
+  return `<tr><td class="center bold">${label}</td><td></td><td class="total redcell" id="${id}">- €</td><td class="extra" id="${id}_extra">- €</td></tr>`;
+}
+function renderCashTable(){
+  let h = '';
+  notes.forEach((v,i)=> h+=row(v, 'n'+i));
+  h += totalRow('notesTotal', 'Total Scheine');
+  coins.forEach((v,i)=> h+=row(v, 'c'+i));
+  h += totalRow('coinsTotal', 'Total Münzen');
+  h += `<tr><td colspan="3"><strong>Gesamt Bargeld</strong></td><td class="yellow" id="yellowTotal">- €</td></tr>`;
+  document.getElementById('cashBody').innerHTML = h;
+}
+function getQty(id){
+  let el = document.getElementById('q_'+id);
+  if(!el) return 0;
+  let v = parseInt(el.value,10);
+  return isNaN(v)?0:Math.max(0,v);
+}
+function setQty(id,val){
+  let el = document.getElementById('q_'+id);
+  if(el) el.value = Math.max(0,val);
+}
+function chgQty(id, delta){
+  let newVal = getQty(id) + delta;
+  if(newVal<0) newVal=0;
+  setQty(id, newVal);
+  calcZaehlung();
+}
+function calcZaehlung(){
+  let sumNotes = 0;
+  notes.forEach((v,i)=>{ let cnt = getQty('n'+i); let subtotal = v*cnt; sumNotes+=subtotal; textTotal('t_n'+i, subtotal); });
+  let sumCoins = 0;
+  coins.forEach((v,i)=>{ let cnt = getQty('c'+i); let subtotal = v*cnt; sumCoins+=subtotal; textTotal('t_c'+i, subtotal); });
+  const counted = sumNotes + sumCoins;
+  currentCountedTotal = counted;
+  textTotal('notesTotal', sumNotes);
+  textTotal('notesTotal_extra', sumNotes);
+  textTotal('coinsTotal', sumCoins);
+  textTotal('coinsTotal_extra', sumCoins);
+  const yellowSpan = document.getElementById('yellowTotal');
+  if(yellowSpan) yellowSpan.innerHTML = euro(counted);
+  const grandCell = document.getElementById('grandTotalCell');
+  if(grandCell) grandCell.innerText = euro(counted);
+  recalcDiff();
+}
+function textTotal(id, val){
+  let el = document.getElementById(id);
+  if(el) el.innerText = euro(val);
+}
+function recalcDiff(){
+  const sollText = document.getElementById('zpSollCell')?.innerText || '0 €';
+  let soll = parseFloat(sollText.replace('€','').replace(',','.').trim());
+  if(isNaN(soll)) soll = 0;
+  const diff = currentCountedTotal - soll;
+  const diffCell = document.getElementById('zpDiffCell');
+  if(diffCell) diffCell.innerText = euro(diff);
+  // optische Farbe: wenn Differenz nahe 0, neutral
+  if(diffCell){
+    if(Math.abs(diff)<0.01) diffCell.style.background = "#d4e6b0";
+    else diffCell.style.background = diff>0 ? "#c6e9c3" : "#ffcccc";
+  }
+}
+function syncPrevFromKasse(){
+  const prevKasse = val('prevSaldo');
+  const zpPrev = document.getElementById('zpPrev');
+  if(zpPrev) zpPrev.value = (Math.abs(prevKasse)<0.005 ? '' : prevKasse.toFixed(2).replace('.',','));
+  calcKasse(); // aktualisiert auch Soll
+}
+
+// --------------------------------------------------------------
+// 4. Speichern / Laden Vortag (localStorage)
+// --------------------------------------------------------------
+function loadPreviousSaldo(){
+  const saved = JSON.parse(localStorage.getItem('sanremo_kb305_saldo') || '{}');
+  const today = isoKey(new Date());
+  let lastDate = null;
+  for(let d in saved){
+    if(d < today && (lastDate === null || d > lastDate)) lastDate = d;
+  }
+  if(lastDate && saved[lastDate] !== undefined){
+    let prevVal = parseFloat(saved[lastDate]);
+    if(!isNaN(prevVal)){
+      document.getElementById('prevSaldo').value = prevVal.toFixed(2).replace('.',',');
+      calcKasse();
+    } else alert('Ungültiger Vortagsbestand');
+  } else {
+    alert('Kein gespeicherter Tagesabschluss vom Vortag gefunden. Bitte zuerst einen Tag speichern oder manuell eintragen.');
+  }
+}
+function saveDay(){
+  calcKasse();
+  let closingVal = val('closingCash');
+  if(isNaN(closingVal)){
+    alert('Kein gültiger Endbestand');
+    return;
+  }
+  const today = isoKey(new Date());
+  const saved = JSON.parse(localStorage.getItem('sanremo_kb305_saldo') || '{}');
+  saved[today] = closingVal;
+  localStorage.setItem('sanremo_kb305_saldo', JSON.stringify(saved));
+  alert(`Kassenbestand vom ${today} gespeichert: ${euro(closingVal)}`);
+}
+function clearAll(){
+  // Alle Eingabefelder zurücksetzen (ohne die Buttons)
+  const allInputs = document.querySelectorAll('.page input');
+  allInputs.forEach(inp => {
+    if(inp.id === 'kbNr') { inp.value='1'; return; }
+    if(inp.id === 'kbDate') return;
+    if(inp.readOnly) return;
+    if(inp.type === 'date') return;
+    inp.value = '';
+  });
+  // Beschreibungen / Platzhalter wiederherstellen
+  document.getElementById('bizDesc1').value = 'Gutschein';
+  document.getElementById('otherDesc1').value = 'EC-Gebühren';
+  document.getElementById('expDesc1').placeholder = 'Eis, Becher';
+  // Zählprotokoll alle Mengen auf 0 setzen
+  for(let i=0;i<notes.length;i++){ let inp = document.getElementById('q_n'+i); if(inp) inp.value='0'; }
+  for(let i=0;i<coins.length;i++){ let inp = document.getElementById('q_c'+i); if(inp) inp.value='0'; }
+  setToday();
+  calcKasse();
+  calcZaehlung();
+}
+// --------------------------------------------------------------
+// 5. Initialisierung
+// --------------------------------------------------------------
+function init(){
+  renderCashTable();
+  setToday();
+  // Versuche Vortag aus localStorage in prevSaldo zu laden (falls vorhanden)
+  const saved = JSON.parse(localStorage.getItem('sanremo_kb305_saldo') || '{}');
+  const today = isoKey(new Date());
+  let lastDate = null;
+  for(let d in saved){
+    if(d < today && (lastDate === null || d > lastDate)) lastDate = d;
+  }
+  if(lastDate && saved[lastDate] !== undefined){
+    let prevVal = parseFloat(saved[lastDate]);
+    if(!isNaN(prevVal)) document.getElementById('prevSaldo').value = prevVal.toFixed(2).replace('.',',');
+  }
+  calcKasse();
+  calcZaehlung();
+}
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
