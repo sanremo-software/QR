@@ -1,303 +1,113 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanremo – Kasse / EC / Trinkgeld Kontrolle</title>
-  <style>
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef0f3;color:#111}
-    .app{max-width:1100px;margin:0 auto;padding:16px}
-    h1{margin:0 0 6px;font-size:26px}
-    h2{font-size:18px;margin:22px 0 10px}
-    .sub{color:#555;margin-bottom:16px}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .card{background:#fff;border:1px solid #d5d7db;border-radius:14px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-    label{display:block;font-weight:700;font-size:13px;margin:8px 0 4px}
-    input,select{width:100%;padding:10px;border:1px solid #bbb;border-radius:9px;font-size:16px;background:#fff}
-    button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;background:#111;color:#fff;font-size:14px}
-    button.secondary{background:#555}
-    button.red{background:#9b1c1c}
-    button.green{background:#166534}
-    .buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .result{font-size:22px;font-weight:900}
-    .ok{color:#166534}.warn{color:#b45309}.bad{color:#991b1b}
-    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
-    th,td{border-bottom:1px solid #e5e7eb;padding:9px;text-align:left;font-size:14px}
-    th{background:#111;color:#fff}
-    tfoot td{font-weight:900;background:#f8fafc}
-    .small{font-size:12px;color:#555}
-    .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:800;background:#eee}
-    .print{display:none}
-    @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:520px){.grid{grid-template-columns:1fr}h1{font-size:22px}}
-    @media print{
-      body{background:#fff}.buttons,.noPrint{display:none}.app{max-width:none;padding:0}.card{box-shadow:none;border:1px solid #999}.print{display:block}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanremo ADDISON Training – Kassenbuch üben</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef0f3;color:#111}.app{max-width:1180px;margin:auto;padding:16px}h1{margin:0 0 6px;font-size:26px}.sub{color:#555;margin-bottom:14px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tabs button{background:#fff;color:#111;border:1px solid #bbb}.tabs button.active{background:#111;color:#fff}.card{background:#fff;border:1px solid #d7d7d7;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}label{display:block;font-weight:700;font-size:13px;margin:8px 0 4px}input,select,textarea{width:100%;padding:10px;border:1px solid #aaa;border-radius:9px;font-size:16px;background:#fff}button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;background:#111;color:#fff}.green{background:#166534}.red{background:#991b1b}.gray{background:#555}.blue{background:#1d4ed8}.warn{background:#b45309}.big{font-size:24px;font-weight:900}.ok{color:#166534}.bad{color:#991b1b}.orange{color:#b45309}.hide{display:none}table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{border-bottom:1px solid #e5e7eb;padding:8px;text-align:left;font-size:14px}th{background:#111;color:#fff}tfoot td{font-weight:900;background:#f8fafc}.pill{display:inline-block;padding:5px 9px;border-radius:99px;font-size:12px;font-weight:900;background:#eee}.note{background:#fff7ed;border:1px solid #fed7aa;padding:10px;border-radius:10px;margin-top:10px}.receipt{font-family:'Courier New',monospace;background:#fafafa;border:1px dashed #777;padding:14px;white-space:pre-wrap}.rowbtn{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.grid{grid-template-columns:1fr}h1{font-size:22px}}@media print{.tabs,.noPrint,button{display:none}.card{box-shadow:none;border:1px solid #888}body{background:#fff}.app{max-width:none}}
+</style>
 </head>
 <body>
 <div class="app">
-  <h1>Sanremo – Tagesabschluss PRO</h1>
-  <div class="sub">Sistema completo estilo ADDISON / Kassenbericht para Gastronomie na Alemanha: Umsatz, EC, Trinkgeld, Einkauf, Gutschein, Storno e controlo diário.</div>
+<h1>Sanremo – ADDISON / Kassenbuch Training</h1>
+<div class="sub">Treinar sem estragar nada: Z-Bon, Bar, EC, compras Lidl, 7%, 19%, Kassensturz e saldo de caixa.</div>
 
-  <div class="grid">
-    <div class="card">
-      <h2>1. Tagesdaten</h2>
-      <label>Datum</label>
-      <input id="datum" type="date">
-      <label>Z-Bon Nummer</label>
-      <input id="zbon" placeholder="z.B. 1056">
-      <label>Bediener / Schicht</label>
-      <input id="bediener" placeholder="z.B. Pedro / Frühschicht">
-    </div>
-
-    <div class="card">
-      <h2>2. Umsatz laut Kasse</h2>
-      <label>Bar laut Kasse</label>
-      <input id="bar" type="number" step="0.01" value="0">
-      <label>EC laut Kasse</label>
-      <input id="ecKasse" type="number" step="0.01" value="0">
-      <label>Umsatz 7%</label>
-      <input id="ust7" type="number" step="0.01" value="0">
-      <label>Umsatz 19%</label>
-      <input id="ust19" type="number" step="0.01" value="0">
-      <label>Gutscheine</label>
-      <input id="gutschein" type="number" step="0.01" value="0">
-      <label>Storno Gesamt</label>
-      <input id="storno" type="number" step="0.01" value="0">
-    </div>
-
-    <div class="card">
-      <h2>3. EC Terminal</h2>
-      <label>EC laut Terminal / Triangle</label>
-      <input id="ecTerminal" type="number" step="0.01" value="0">
-      <label>Grund für Differenz</label>
-      <select id="grund">
-        <option>EC-Trinkgeld</option>
-        <option>Terminal-Fehleingabe</option>
-        <option>Storno / Korrektur</option>
-        <option>Ungeklärt</option>
-      </select>
-    </div>
-
-    <div class="card">
-      <h2>4. Ergebnis</h2>
-      <div class="small">Differenz Terminal minus EC Kasse</div>
-      <div style="margin:6px 0;font-size:13px;color:#555">Ampel-System für Tagesabschluss</div>
-      <div id="diff" class="result">0,00 €</div>
-      <div id="status" class="pill">Noch nicht berechnet</div>
-      <div class="buttons">
-        <button onclick="berechnen()">Berechnen</button>
-        <button class="green" onclick="speichern()">Speichern</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h2>Erklärung für Steuerberater</h2>
-    <div id="erklaerung">Noch keine Berechnung.</div>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h2>5. Einkäufe / Ausgaben</h2>
-    <div class="grid">
-      <div>
-        <label>Lieferant / Geschäft</label>
-        <input id="lieferant" placeholder="z.B. Lidl, Metro, Bäko">
-      </div>
-      <div>
-        <label>Beschreibung</label>
-        <input id="beschreibung" placeholder="z.B. Obst, Reinigung, Becher">
-      </div>
-      <div>
-        <label>MwSt</label>
-        <select id="mwstEinkauf">
-          <option value="7">7% Lebensmittel</option>
-          <option value="19">19% Betriebsausgaben</option>
-          <option value="0">0% / ohne MwSt</option>
-        </select>
-      </div>
-      <div>
-        <label>Zahlung</label>
-        <select id="zahlungEinkauf">
-          <option>Bar</option>
-          <option>EC / Karte</option>
-          <option>Rechnung / Überweisung</option>
-        </select>
-      </div>
-      <div>
-        <label>Betrag Brutto</label>
-        <input id="betragEinkauf" type="number" step="0.01" value="0">
-      </div>
-    </div>
-    <div class="buttons noPrint">
-      <button class="green" onclick="einkaufSpeichern()">Einkauf speichern</button>
-    </div>
-    <table style="margin-top:12px">
-      <thead>
-        <tr><th>Datum</th><th>Lieferant</th><th>Beschreibung</th><th>MwSt</th><th>Zahlung</th><th>Brutto</th><th>Netto</th><th>MwSt Betrag</th></tr>
-      </thead>
-      <tbody id="einkaufListe"></tbody>
-      <tfoot>
-        <tr><td colspan="5">Summe Einkäufe</td><td id="sumEinkaufBrutto">0,00 €</td><td id="sumEinkaufNetto">0,00 €</td><td id="sumEinkaufMwst">0,00 €</td></tr>
-      </tfoot>
-    </table>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h2>Gespeicherte Tageskontrollen</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Datum</th><th>Z-Bon</th><th>Schicht</th><th>Bar</th><th>EC Kasse</th><th>EC Terminal</th><th>Differenz</th><th>Grund</th><th>7%</th><th>19%</th><th>Gutschein</th><th>Storno</th>
-        </tr>
-      </thead>
-      <tbody id="liste"></tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2">Summe</td><td id="sumBar">0,00 €</td><td id="sumEcKasse">0,00 €</td><td id="sumEcTerminal">0,00 €</td><td id="sumDiff">0,00 €</td><td></td><td id="sum7">0,00 €</td><td id="sum19">0,00 €</td>
-        </tr>
-      </tfoot>
-    </table>
-    <div class="buttons noPrint">
-      <button onclick="window.print()">Drucken / PDF</button>
-      <button class="secondary" onclick="exportCSV()">CSV Export</button>
-      <button class="red" onclick="loeschen()">Alles löschen</button>
-    </div>
-  </div>
+<div class="tabs noPrint">
+<button class="active" onclick="tab('dashboard',this)">Übersicht</button>
+<button onclick="tab('zbon',this)">1. Z-Bon erfassen</button>
+<button onclick="tab('einkauf',this)">2. Einkauf erfassen</button>
+<button onclick="tab('sturz',this)">3. Kassensturz</button>
+<button onclick="tab('report',this)">4. Report</button>
 </div>
 
+<section id="dashboard" class="page">
+<div class="grid">
+<div class="card"><b>Gesamtbarbestand</b><div id="dashBar" class="big">0,00 €</div><span class="pill">Dinheiro físico teórico</span></div>
+<div class="card"><b>EC / Banco</b><div id="dashEC" class="big">0,00 €</div><span class="pill">Não é caixa física</span></div>
+<div class="card"><b>Umsatz 7%</b><div id="dash7" class="big">0,00 €</div><span class="pill">laut Z-Bon</span></div>
+<div class="card"><b>Umsatz 19%</b><div id="dash19" class="big">0,00 €</div><span class="pill">laut Z-Bon</span></div>
+</div>
+<div class="card">
+<h2>Como pensar corretamente</h2>
+<div class="note"><b>Regra:</b> no Kassenbuch entra só dinheiro físico. EC/Karte vai para banco. Compras pagas em dinheiro baixam a caixa. Compras pagas com cartão não baixam a caixa.</div>
+</div>
+</section>
+
+<section id="zbon" class="page hide">
+<div class="card">
+<h2>1. Z-Bon da Kasse</h2>
+<div class="grid">
+<div><label>Datum</label><input id="zDatum" type="date"></div>
+<div><label>Z-Bon Nr.</label><input id="zNr" placeholder="z.B. 130803"></div>
+<div><label>Umsatz 7% inkl.</label><input id="z7" type="number" step="0.01" value="235.50"></div>
+<div><label>Umsatz 19% inkl.</label><input id="z19" type="number" step="0.01" value="10.70"></div>
+<div><label>Bar laut Kasse</label><input id="zBar" type="number" step="0.01" value="231.70"></div>
+<div><label>EC laut Kasse</label><input id="zEC" type="number" step="0.01" value="14.50"></div>
+<div><label>Im Haus</label><input id="zHaus" type="number" step="0.01" value="170.70"></div>
+<div><label>Außer Haus</label><input id="zAusser" type="number" step="0.01" value="75.50"></div>
+</div>
+<div class="rowbtn noPrint"><button class="green" onclick="saveZbon()">Z-Bon buchen</button><button class="gray" onclick="loadExampleZbon()">Exemplo carregar</button></div>
+<div id="zInfo" class="note"></div>
+</div>
+</section>
+
+<section id="einkauf" class="page hide">
+<div class="card">
+<h2>2. Einkauf / Ausgabe erfassen</h2>
+<div class="grid">
+<div><label>Datum</label><input id="eDatum" type="date"></div>
+<div><label>Lieferant</label><input id="eLieferant" value="Lidl"></div>
+<div><label>Pagamento</label><select id="eZahlung"><option>Bar</option><option>EC / Karte</option><option>Rechnung / Überweisung</option></select></div>
+<div><label>Beleg Nr.</label><input id="eBeleg" placeholder="freiwillig"></div>
+<div><label>Brutto 7%</label><input id="e7" type="number" step="0.01" value="89.79"></div>
+<div><label>Brutto 19%</label><input id="e19" type="number" step="0.01" value="5.03"></div>
+<div><label>Brutto 0%</label><input id="e0" type="number" step="0.01" value="0"></div>
+<div><label>Total automatisch</label><input id="eTotal" readonly></div>
+</div>
+<label>Descrição / Observação</label><textarea id="eText">Lidl Einkauf: Lebensmittel 7%, Betriebsausgaben 19%</textarea>
+<div class="rowbtn noPrint"><button class="green" onclick="saveEinkauf()">Einkauf buchen</button><button class="gray" onclick="calcEinkauf()">Total berechnen</button></div>
+<div id="eInfo" class="note"></div>
+</div>
+</section>
+
+<section id="sturz" class="page hide">
+<div class="card">
+<h2>3. Kassensturz – dinheiro real contar</h2>
+<div class="grid">
+<div><label>500€</label><input class="coin" data-v="500" type="number" value="0"></div><div><label>200€</label><input class="coin" data-v="200" type="number" value="0"></div><div><label>100€</label><input class="coin" data-v="100" type="number" value="0"></div><div><label>50€</label><input class="coin" data-v="50" type="number" value="0"></div>
+<div><label>20€</label><input class="coin" data-v="20" type="number" value="0"></div><div><label>10€</label><input class="coin" data-v="10" type="number" value="0"></div><div><label>5€</label><input class="coin" data-v="5" type="number" value="0"></div><div><label>2€</label><input class="coin" data-v="2" type="number" value="0"></div>
+<div><label>1€</label><input class="coin" data-v="1" type="number" value="0"></div><div><label>0,50€</label><input class="coin" data-v="0.5" type="number" value="0"></div><div><label>0,20€</label><input class="coin" data-v="0.2" type="number" value="0"></div><div><label>0,10€</label><input class="coin" data-v="0.1" type="number" value="0"></div>
+</div>
+<div class="rowbtn noPrint"><button onclick="kassensturz()">Kassensturz berechnen</button></div>
+<div id="sturzInfo" class="note"></div>
+</div>
+</section>
+
+<section id="report" class="page hide">
+<div class="card">
+<h2>4. Report / Buchungen</h2>
+<table><thead><tr><th>Datum</th><th>Typ</th><th>Beleg</th><th>Text</th><th>Bar +/-</th><th>EC/Banco</th><th>7%</th><th>19%</th></tr></thead><tbody id="tbody"></tbody><tfoot><tr><td colspan="4">Summe</td><td id="sumBar">0,00 €</td><td id="sumEC">0,00 €</td><td id="sum7">0,00 €</td><td id="sum19">0,00 €</td></tr></tfoot></table>
+<div class="rowbtn noPrint"><button onclick="window.print()">Drucken / PDF</button><button class="blue" onclick="exportCSV()">CSV Export</button><button class="red" onclick="resetAll()">Alles löschen</button></div>
+</div>
+<div class="card"><h2>Explicação para o contabilista</h2><div id="berater" class="receipt"></div></div>
+</section>
+</div>
 <script>
-const EUR = new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
-const key = 'sanremo_kasse_ec_trinkgeld_v1';
-let daten = JSON.parse(localStorage.getItem(key)||'[]');
-const keyEinkauf = 'sanremo_einkaeufe_v1';
-let einkaeufe = JSON.parse(localStorage.getItem(keyEinkauf)||'[]');
-
-document.getElementById('datum').valueAsDate = new Date();
-render();
-
-function val(id){return Number(document.getElementById(id).value||0)}
-function txt(id){return document.getElementById(id).value||''}
-
-function berechnen(){
-  const diff = val('ecTerminal') - val('ecKasse');
-  const grund = txt('grund');
-  document.getElementById('diff').textContent = EUR.format(diff);
-  const status = document.getElementById('status');
-  status.className='pill';
-  if(Math.abs(diff) < 0.005){
-    status.textContent='OK: EC stimmt'; status.classList.add('ok');
-  } else if(diff > 0 && grund === 'EC-Trinkgeld'){
-    status.textContent='OK wenn als Trinkgeld dokumentiert'; status.classList.add('ok');
-  } else if(grund === 'Ungeklärt'){
-    status.textContent='Achtung: ungeklärte Differenz'; status.classList.add('bad');
-  } else {
-    status.textContent='Prüfen und dokumentieren'; status.classList.add('warn');
-  }
-  document.getElementById('erklaerung').innerHTML = `
-    <b>Datum:</b> ${txt('datum')}<br>
-    <b>EC laut Kasse:</b> ${EUR.format(val('ecKasse'))}<br>
-    <b>EC laut Terminal:</b> ${EUR.format(val('ecTerminal'))}<br>
-    <b>Differenz:</b> ${EUR.format(diff)}<br>
-    <b>Grund:</b> ${grund}<br><br>
-    ${diff>0 && grund==='EC-Trinkgeld' ? 'Die Differenz zwischen EC-Terminal und Kasse wird als freiwilliges EC-Trinkgeld dokumentiert. Der Umsatz laut Kasse bleibt unverändert; der höhere Terminalbetrag erklärt sich durch Trinkgeldzahlungen der Kunden.' : 'Diese Differenz muss geprüft und mit Beleg / Z-Bon / Terminalabschluss erklärt werden.'}
-  `;
-  return diff;
-}
-
-function speichern(){
-  const diff = berechnen();
-  daten.push({
-    datum:txt('datum'),
-    zbon:txt('zbon'),
-    bediener:txt('bediener'),
-    bar:val('bar'),
-    ecKasse:val('ecKasse'),
-    ecTerminal:val('ecTerminal'),
-    diff,
-    grund:txt('grund'),
-    ust7:val('ust7'),
-    ust19:val('ust19'),
-    gutschein:val('gutschein'),
-    storno:val('storno')
-  });
-  localStorage.setItem(key,JSON.stringify(daten));
-  render();
-}
-
-function render(){
-  renderEinkaeufe();
-  const tbody=document.getElementById('liste'); tbody.innerHTML='';
-  let s={bar:0,ecKasse:0,ecTerminal:0,diff:0,ust7:0,ust19:0};
-  daten.forEach(r=>{
-    s.bar+=r.bar; s.ecKasse+=r.ecKasse; s.ecTerminal+=r.ecTerminal; s.diff+=r.diff; s.ust7+=r.ust7; s.ust19+=r.ust19;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${r.datum}</td><td>${r.zbon||'-'}</td><td>${r.bediener}</td><td>${EUR.format(r.bar)}</td><td>${EUR.format(r.ecKasse)}</td><td>${EUR.format(r.ecTerminal)}</td><td>${EUR.format(r.diff)}</td><td>${r.grund}</td><td>${EUR.format(r.ust7)}</td><td>${EUR.format(r.ust19)}</td><td>${EUR.format(r.gutschein||0)}</td><td>${EUR.format(r.storno||0)}</td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('sumBar').textContent=EUR.format(s.bar);
-  document.getElementById('sumEcKasse').textContent=EUR.format(s.ecKasse);
-  document.getElementById('sumEcTerminal').textContent=EUR.format(s.ecTerminal);
-  document.getElementById('sumDiff').textContent=EUR.format(s.diff);
-  document.getElementById('sum7').textContent=EUR.format(s.ust7);
-  document.getElementById('sum19').textContent=EUR.format(s.ust19);
-}
-
-function loeschen(){
-  if(confirm('Alle gespeicherten Tageskontrollen löschen?')){daten=[];localStorage.removeItem(key);render();}
-}
-
-function einkaufSpeichern(){
-  const brutto = val('betragEinkauf');
-  const mwst = Number(document.getElementById('mwstEinkauf').value);
-  const netto = mwst > 0 ? brutto / (1 + mwst/100) : brutto;
-  const mwstBetrag = brutto - netto;
-  einkaeufe.push({
-    datum: txt('datum'),
-    lieferant: txt('lieferant'),
-    beschreibung: txt('beschreibung'),
-    mwst,
-    zahlung: txt('zahlungEinkauf'),
-    brutto,
-    netto,
-    mwstBetrag
-  });
-  localStorage.setItem(keyEinkauf, JSON.stringify(einkaeufe));
-  document.getElementById('lieferant').value='';
-  document.getElementById('beschreibung').value='';
-  document.getElementById('betragEinkauf').value='0';
-  render();
-}
-
-function renderEinkaeufe(){
-  const tbody = document.getElementById('einkaufListe');
-  if(!tbody) return;
-  tbody.innerHTML='';
-  let sB=0, sN=0, sM=0;
-  einkaeufe.forEach(r=>{
-    sB+=r.brutto; sN+=r.netto; sM+=r.mwstBetrag;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${r.datum}</td><td>${r.lieferant}</td><td>${r.beschreibung}</td><td>${r.mwst}%</td><td>${r.zahlung}</td><td>${EUR.format(r.brutto)}</td><td>${EUR.format(r.netto)}</td><td>${EUR.format(r.mwstBetrag)}</td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('sumEinkaufBrutto').textContent=EUR.format(sB);
-  document.getElementById('sumEinkaufNetto').textContent=EUR.format(sN);
-  document.getElementById('sumEinkaufMwst').textContent=EUR.format(sM);
-}
-
-function exportCSV(){
-  const rows=[['TAGESKONTROLLE'],['Datum','Schicht','Bar','EC Kasse','EC Terminal','Differenz','Grund','Umsatz 7%','Umsatz 19%']];
-  daten.forEach(r=>rows.push([r.datum,r.bediener,r.bar,r.ecKasse,r.ecTerminal,r.diff,r.grund,r.ust7,r.ust19]));
-  rows.push([]);
-  rows.push(['EINKAEUFE / AUSGABEN']);
-  rows.push(['Datum','Lieferant','Beschreibung','MwSt','Zahlung','Brutto','Netto','MwSt Betrag']);
-  einkaeufe.forEach(r=>rows.push([r.datum,r.lieferant,r.beschreibung,r.mwst+'%',r.zahlung,r.brutto,r.netto,r.mwstBetrag]));
-  const csv=rows.map(row=>row.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(';')).join('\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sanremo_kasse_ec_trinkgeld.csv'; a.click();
-}
+const EUR=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});const key='sanremo_addison_training_v2';let rows=JSON.parse(localStorage.getItem(key)||'[]');
+document.getElementById('zDatum').valueAsDate=new Date();document.getElementById('eDatum').valueAsDate=new Date();calcEinkauf();render();
+function val(id){return Number(document.getElementById(id).value||0)}function txt(id){return document.getElementById(id).value||''}
+function tab(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.add('hide'));document.getElementById(id).classList.remove('hide');document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render()}
+function loadExampleZbon(){document.getElementById('z7').value='235.50';document.getElementById('z19').value='10.70';document.getElementById('zBar').value='231.70';document.getElementById('zEC').value='14.50';document.getElementById('zHaus').value='170.70';document.getElementById('zAusser').value='75.50';}
+function saveZbon(){const total=val('z7')+val('z19');const pay=val('zBar')+val('zEC');rows.push({datum:txt('zDatum'),typ:'Einnahme Z-Bon',beleg:txt('zNr'),text:'Tagesumsatz laut Kasse. Gesamt '+EUR.format(total)+'. Bar kommt ins Kassenbuch, EC geht Bank.',bar:val('zBar'),ec:val('zEC'),u7:val('z7'),u19:val('z19')});localStorage.setItem(key,JSON.stringify(rows));document.getElementById('zInfo').innerHTML='<b>Gebucht:</b> Nur Bar erhöht den Kassenbestand: '+EUR.format(val('zBar'))+'. EC '+EUR.format(val('zEC'))+' wird separat als Bank/EC gezeigt.';render()}
+function calcEinkauf(){document.getElementById('eTotal').value=(val('e7')+val('e19')+val('e0')).toFixed(2)}
+['e7','e19','e0'].forEach(id=>document.getElementById(id).addEventListener('input',calcEinkauf));
+function saveEinkauf(){calcEinkauf();const total=val('e7')+val('e19')+val('e0');const zahl=txt('eZahlung');const barMinus=zahl==='Bar'?-total:0;rows.push({datum:txt('eDatum'),typ:'Ausgabe Einkauf',beleg:txt('eBeleg'),text:txt('eLieferant')+' – '+txt('eText')+' – Zahlung: '+zahl,bar:barMinus,ec:zahl==='EC / Karte'?-total:0,u7:-val('e7'),u19:-val('e19')});localStorage.setItem(key,JSON.stringify(rows));document.getElementById('eInfo').innerHTML= zahl==='Bar' ? '<b>Gebucht:</b> Einkauf senkt Kassenbestand um '+EUR.format(total)+'.' : '<b>Gebucht:</b> Einkauf senkt NICHT den Barbestand, weil Zahlung nicht bar war.';render()}
+function kassensturz(){let real=0;document.querySelectorAll('.coin').forEach(i=>real+=Number(i.value||0)*Number(i.dataset.v));const soll=sum().bar;const diff=real-soll;let cls=diff===0?'ok':Math.abs(diff)<=2?'orange':'bad';document.getElementById('sturzInfo').innerHTML='<b>Soll laut Kassenbuch:</b> '+EUR.format(soll)+'<br><b>Gezählt real:</b> '+EUR.format(real)+'<br><b>Differenz:</b> <span class="'+cls+'">'+EUR.format(diff)+'</span>'}
+function sum(){return rows.reduce((a,r)=>{a.bar+=r.bar||0;a.ec+=r.ec||0;a.u7+=r.u7||0;a.u19+=r.u19||0;return a},{bar:0,ec:0,u7:0,u19:0})}
+function render(){const s=sum();document.getElementById('dashBar').textContent=EUR.format(s.bar);document.getElementById('dashEC').textContent=EUR.format(s.ec);document.getElementById('dash7').textContent=EUR.format(s.u7);document.getElementById('dash19').textContent=EUR.format(s.u19);const tb=document.getElementById('tbody');tb.innerHTML='';rows.forEach(r=>{let tr=document.createElement('tr');tr.innerHTML=`<td>${r.datum}</td><td>${r.typ}</td><td>${r.beleg||'-'}</td><td>${r.text}</td><td>${EUR.format(r.bar||0)}</td><td>${EUR.format(r.ec||0)}</td><td>${EUR.format(r.u7||0)}</td><td>${EUR.format(r.u19||0)}</td>`;tb.appendChild(tr)});document.getElementById('sumBar').textContent=EUR.format(s.bar);document.getElementById('sumEC').textContent=EUR.format(s.ec);document.getElementById('sum7').textContent=EUR.format(s.u7);document.getElementById('sum19').textContent=EUR.format(s.u19);document.getElementById('berater').textContent='Kassenbuch Training\n\nBarbestand laut Buchungen: '+EUR.format(s.bar)+'\nEC/Banco separat: '+EUR.format(s.ec)+'\nUmsatz/Einkäufe 7%: '+EUR.format(s.u7)+'\nUmsatz/Einkäufe 19%: '+EUR.format(s.u19)+'\n\nHinweis: Bar-Zahlungen verändern den Kassenbestand. EC/Karte verändert nicht den physischen Barbestand.'}
+function exportCSV(){const out=[['Datum','Typ','Beleg','Text','Bar','EC','7%','19%']];rows.forEach(r=>out.push([r.datum,r.typ,r.beleg,r.text,r.bar,r.ec,r.u7,r.u19]));const csv=out.map(row=>row.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(';')).join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sanremo_addison_training.csv';a.click()}
+function resetAll(){if(confirm('Alles löschen?')){rows=[];localStorage.removeItem(key);render()}}
 </script>
 </body>
 </html>
