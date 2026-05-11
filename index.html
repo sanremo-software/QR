@@ -1,204 +1,688 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sanremo ADDISON Trainer – Kassenbuch</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#111}.app{max-width:1260px;margin:0 auto;padding:18px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.brand h1{margin:0;font-size:28px}.brand p{margin:5px 0 0;color:#555}.badge{background:#111;color:#fff;border-radius:999px;padding:8px 12px;font-weight:900;font-size:13px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button{background:#fff;color:#111;border:1px solid #c8ccd2}.tabs button.active{background:#111;color:#fff;border-color:#111}.card{background:#fff;border:1px solid #d9dde3;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.055)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.kpi .label{font-size:13px;color:#666;font-weight:900;text-transform:uppercase}.kpi .value{font-size:28px;font-weight:950;margin-top:8px}.kpi .hint{font-size:12px;color:#555;margin-top:7px}h2{font-size:20px;margin:0 0 12px}label{display:block;font-weight:900;font-size:13px;margin:9px 0 4px}input,select,textarea{width:100%;padding:11px;border:1px solid #aeb4bd;border-radius:10px;font-size:16px;background:#fff}textarea{min-height:78px}button{border:0;border-radius:10px;padding:11px 14px;font-weight:900;cursor:pointer;background:#111;color:#fff}.green{background:#166534}.red{background:#991b1b}.gray{background:#4b5563}.blue{background:#1d4ed8}.orange{background:#b45309}.hide{display:none}.rowbtn{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.note{background:#fff7ed;border:1px solid #fed7aa;padding:11px;border-radius:12px;margin-top:11px;line-height:1.42}.success{background:#ecfdf5;border-color:#bbf7d0}.danger{background:#fef2f2;border-color:#fecaca}.info{background:#eff6ff;border-color:#bfdbfe}.pill{display:inline-block;padding:5px 9px;border-radius:99px;font-size:12px;font-weight:900;background:#e5e7eb}.pill.ok{background:#dcfce7;color:#166534}.pill.bad{background:#fee2e2;color:#991b1b}.pill.warn{background:#fef3c7;color:#92400e}table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{border-bottom:1px solid #e5e7eb;padding:9px;text-align:left;font-size:14px;vertical-align:top}th{background:#111;color:#fff;white-space:nowrap}tfoot td{font-weight:950;background:#f8fafc}.receipt{font-family:'Courier New',monospace;background:#fafafa;border:1px dashed #777;padding:14px;white-space:pre-wrap;border-radius:12px}.greenText{color:#166534}.redText{color:#991b1b}.blueText{color:#1d4ed8}.moneyIn{color:#166534;font-weight:900}.moneyOut{color:#991b1b;font-weight:900}.muted{color:#666}.warnbox{border-left:5px solid #b45309}.okbox{border-left:5px solid #166534}.badbox{border-left:5px solid #991b1b}@media(max-width:980px){.grid{grid-template-columns:1fr 1fr}.grid3,.split{grid-template-columns:1fr}.top{display:block}.badge{display:inline-block;margin-top:8px}}@media(max-width:560px){.grid{grid-template-columns:1fr}.brand h1{font-size:23px}.app{padding:12px}th,td{font-size:12px;padding:7px}}@media print{body{background:#fff}.app{max-width:none;padding:0}.tabs,.noPrint,button{display:none!important}.card{box-shadow:none;border:1px solid #888;break-inside:avoid}.page.hide{display:none}.badge{color:#111;background:#fff;border:1px solid #111}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>POS - Eiscafé San Remo | Caixa Registadora</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background: #f5f2e8;
+      margin: 0;
+      padding: 20px;
+    }
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Header */
+    .header {
+      background: #2e241f;
+      color: #f9e0b0;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 1.7rem;
+      letter-spacing: -0.5px;
+      font-weight: 600;
+    }
+    .header small {
+      font-size: 0.8rem;
+      color: #e6cba0;
+    }
+    /* Main 2 colunas */
+    .pos-main {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .products-panel {
+      flex: 2;
+      min-width: 260px;
+      background: #fffef7;
+      border-right: 1px solid #eee2d0;
+      padding: 20px;
+    }
+    .cart-panel {
+      flex: 1.2;
+      min-width: 300px;
+      background: #fefaf5;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Busca */
+    .search-box {
+      margin-bottom: 20px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 2px solid #e9ddce;
+      border-radius: 44px;
+      background: white;
+      transition: 0.2s;
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: #c47a44;
+      box-shadow: 0 0 0 2px rgba(196,122,68,0.2);
+    }
+    /* filtros categoria */
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .cat-btn {
+      background: #f0e7dc;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #4a3729;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .cat-btn.active {
+      background: #c47a44;
+      color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    /* grade produtos */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .product-card {
+      background: white;
+      border-radius: 20px;
+      border: 1px solid #f0e2d4;
+      padding: 12px 10px;
+      transition: 0.1s ease;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .product-card:hover {
+      border-color: #c47a44;
+      background: #fff9f2;
+      transform: scale(0.98);
+    }
+    .product-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      color: #2c241e;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+    .product-price {
+      font-weight: 700;
+      color: #b45f2b;
+      font-size: 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .price-euro {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .add-btn {
+      background: #2e241f;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .add-btn:active {
+      background: #c47a44;
+    }
+    /* carrinho */
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #eedbcb;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .cart-header h2 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: #2e241f;
+    }
+    .clear-cart {
+      background: none;
+      border: none;
+      color: #a16234;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .cart-items {
+      flex: 1;
+      max-height: 55vh;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border-radius: 20px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 3px #e2d4c8;
+    }
+    .cart-item-info {
+      flex: 3;
+    }
+    .cart-item-name {
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+    .cart-item-price {
+      font-size: 0.75rem;
+      color: #b45f2b;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f9f1e8;
+      padding: 4px 10px;
+      border-radius: 40px;
+    }
+    .qty-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      width: 26px;
+      cursor: pointer;
+      color: #5e3e2a;
+    }
+    .qty-num {
+      font-weight: 600;
+      min-width: 24px;
+      text-align: center;
+    }
+    .cart-item-total {
+      font-weight: 700;
+      margin-left: 12px;
+      min-width: 60px;
+      text-align: right;
+      color: #2e241f;
+    }
+    .remove-item {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      margin-left: 8px;
+      cursor: pointer;
+      color: #bf7b48;
+    }
+    .cart-footer {
+      border-top: 2px dashed #eedbcb;
+      padding-top: 16px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 12px 0;
+    }
+    .checkout-btn {
+      background: #2e7d5e;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 44px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .checkout-btn:active {
+      background: #1f5c44;
+    }
+    .empty-cart {
+      text-align: center;
+      color: #ab8e72;
+      padding: 32px 0;
+    }
+    footer {
+      font-size: 0.7rem;
+      text-align: center;
+      padding: 12px;
+      background: #f3ede5;
+      color: #7f6242;
+    }
+    @media (max-width: 780px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      .product-name {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-  <div class="top">
-    <div class="brand">
-      <h1>Sanremo ADDISON Trainer</h1>
-      <p>Treino profissional para perceber o Kassenbuch: Z-Bon, Bar, EC, Kasseneinlage, compras, 7%, 19% e Kassensturz.</p>
+<div class="app-container">
+  <div class="header">
+    <div>
+      <h1>🍨 EISCAFE SAN REMO</h1>
+      <small>Caixa Registadora • Preços com IVA incluído</small>
     </div>
-    <div class="badge">TRAINING – NÃO LANÇA NO ADDISON REAL</div>
+    <div style="font-weight:500;">🇩🇪 Menu oficial</div>
   </div>
+  
+  <div class="pos-main">
+    <!-- painel esquerdo: produtos -->
+    <div class="products-panel">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar produto (ex: spaghetti, waffel, café, becher...)" autocomplete="off">
+      </div>
+      <div class="category-filters" id="categoryFilters">
+        <!-- categorias geradas via js -->
+      </div>
+      <div class="products-grid" id="productsGrid">
+        <!-- produtos dinâmicos -->
+      </div>
+    </div>
 
-  <div class="tabs noPrint">
-    <button class="active" onclick="tab('dashboard',this)">Übersicht</button>
-    <button onclick="tab('zbon',this)">1. Z-Bon</button>
-    <button onclick="tab('einlage',this)">2. Ein-/Auszahlung</button>
-    <button onclick="tab('einkauf',this)">3. Einkauf</button>
-    <button onclick="tab('ec',this)">4. EC / Trinkgeld</button>
-    <button onclick="tab('sturz',this)">5. Kassensturz</button>
-    <button onclick="tab('report',this)">Report</button>
-    <button onclick="tab('hilfe',this)">Anleitung</button>
+    <!-- painel direito: carrinho -->
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h2>🧾 Pedido atual</h2>
+        <button class="clear-cart" id="clearCartBtn">Esvaziar carrinho</button>
+      </div>
+      <div id="cartItemsContainer" class="cart-items">
+        <div class="empty-cart">Nenhum item adicionado</div>
+      </div>
+      <div class="cart-footer">
+        <div class="total-row">
+          <span>💰 TOTAL</span>
+          <span id="cartTotal">0.00 €</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">💳 FINALIZAR VENDA</button>
+      </div>
+    </div>
   </div>
-
-  <section id="dashboard" class="page">
-    <div class="grid">
-      <div class="card kpi"><div class="label">Soll-Barbestand</div><div id="dashBar" class="value greenText">0,00 €</div><div class="hint">dinheiro físico teórico</div></div>
-      <div class="card kpi"><div class="label">EC / Bank separat</div><div id="dashEC" class="value blueText">0,00 €</div><div class="hint">não é caixa física</div></div>
-      <div class="card kpi"><div class="label">Brutto 7%</div><div id="dash7" class="value">0,00 €</div><div class="hint">vendas/compras 7%</div></div>
-      <div class="card kpi"><div class="label">Brutto 19%</div><div id="dash19" class="value">0,00 €</div><div class="hint">vendas/compras 19%</div></div>
-    </div>
-    <div class="split">
-      <div class="card okbox">
-        <h2>Regra que tens de decorar</h2>
-        <div class="note success"><b>ADDISON Kassenbuch = dinheiro físico.</b><br>Bar entra/sai da caixa. EC/Karte vai para banco. Não metas EC como dinheiro físico.</div>
-        <div class="receipt" id="quickExample"></div>
-      </div>
-      <div class="card warnbox">
-        <h2>Exemplo do teu Z-Bon</h2>
-        <div class="receipt">Gesamtumsatz: 364,90 €
-Bar Umsatz: 241,30 €
-EC Karte: 123,60 €
-Summe Einzahlungen: 130,00 €
-Soll Bar: 371,30 €
-
-No ADDISON:
-1) Einzahlung Tagesumsatz Bar: 241,30 €
-2) Einzahlung Kasseneinlage/Wechselgeld: 130,00 €
-3) EC 123,60 € fica separado, NÃO aumenta o Barbestand.</div>
-        <div class="rowbtn noPrint"><button class="blue" onclick="loadExample364()">Carregar exemplo 364,90 €</button><button class="gray" onclick="loadExample246()">Carregar exemplo 246,20 €</button><button class="red" onclick="resetAll()">Limpar treino</button></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="zbon" class="page hide">
-    <div class="card">
-      <h2>1. Z-Bon erfassen</h2>
-      <div class="grid">
-        <div><label>Datum</label><input id="zDatum" type="date"></div>
-        <div><label>Z-Bon Nummer</label><input id="zNr" placeholder="z.B. 130803"></div>
-        <div><label>Kasse</label><input id="zKasse" value="Kasse 01"></div>
-        <div><label>Bediener / Schicht</label><input id="zBediener" placeholder="z.B. Frühschicht"></div>
-        <div><label>Gesamtumsatz</label><input id="zTotal" type="number" step="0.01" value="364.90"></div>
-        <div><label>Umsatz 7% inkl.</label><input id="z7" type="number" step="0.01" value="335.50"></div>
-        <div><label>Umsatz 19% inkl.</label><input id="z19" type="number" step="0.01" value="29.40"></div>
-        <div><label>Summe Einzahlungen laut Z-Bon</label><input id="zEinzahlungen" type="number" step="0.01" value="130.00"></div>
-        <div><label>Bar Umsatz laut Kasse</label><input id="zBar" type="number" step="0.01" value="241.30"></div>
-        <div><label>EC Karte laut Kasse</label><input id="zEC" type="number" step="0.01" value="123.60"></div>
-        <div><label>Im Haus</label><input id="zHaus" type="number" step="0.01" value="206.80"></div>
-        <div><label>Außer Haus</label><input id="zAusser" type="number" step="0.01" value="158.10"></div>
-      </div>
-      <div class="rowbtn noPrint"><button class="gray" onclick="checkZbon()">Prüfen</button><button class="green" onclick="bookZbonBar()">Nur Bar-Umsatz buchen</button><button class="blue" onclick="bookZbonAll()">Bar + Einlage buchen</button></div>
-      <div id="zInfo" class="note info">Primeiro clica “Prüfen”. Depois escolhe: se o Z-Bon tem “Summe Einzahlungen”, normalmente deves lançar também a Kasseneinlage separada.</div>
-    </div>
-  </section>
-
-  <section id="einlage" class="page hide">
-    <div class="card">
-      <h2>2. Ein-/Auszahlung manual</h2>
-      <div class="grid">
-        <div><label>Datum</label><input id="mDatum" type="date"></div>
-        <div><label>Tipo</label><select id="mTyp"><option value="ein">Einzahlung</option><option value="aus">Auszahlung</option></select></div>
-        <div><label>Betrag</label><input id="mBetrag" type="number" step="0.01" value="130.00"></div>
-        <div><label>Umsatzsteuer</label><select id="mMwst"><option value="0">0% / keine USt</option><option value="7">7%</option><option value="19">19%</option></select></div>
-        <div><label>Zuordnung</label><input id="mZuordnung" value="Kasseneinlage / Wechselgeld"></div>
-        <div><label>Belegnummer</label><input id="mBeleg" placeholder="z.B. Einlage 07.05"></div>
-        <div style="grid-column:span 2"><label>Text</label><input id="mText" value="Einlage Wechselgeld laut Z-Bon"></div>
-      </div>
-      <div class="rowbtn noPrint"><button class="green" onclick="bookManual()">Buchen</button></div>
-      <div class="note info">Usa isto para reforço de caixa, dinheiro retirado, troco, Privatentnahme ou correções explicadas.</div>
-    </div>
-  </section>
-
-  <section id="einkauf" class="page hide">
-    <div class="card">
-      <h2>3. Einkauf / Ausgabe erfassen</h2>
-      <div class="grid">
-        <div><label>Datum</label><input id="eDatum" type="date"></div>
-        <div><label>Lieferant</label><input id="eLieferant" value="Lidl"></div>
-        <div><label>Zahlungsart</label><select id="eZahlung"><option>Bar</option><option>EC / Karte</option><option>Rechnung / Überweisung</option></select></div>
-        <div><label>Belegnummer</label><input id="eBeleg" placeholder="z.B. Lidl Bon"></div>
-        <div><label>Brutto 7%</label><input id="e7" type="number" step="0.01" value="89.79"></div>
-        <div><label>Brutto 19%</label><input id="e19" type="number" step="0.01" value="5.03"></div>
-        <div><label>Brutto 0%</label><input id="e0" type="number" step="0.01" value="0"></div>
-        <div><label>Total Brutto</label><input id="eTotal" readonly></div>
-      </div>
-      <label>Beschreibung</label><textarea id="eText">Lidl Einkauf: Lebensmittel 7%, Betriebsausgaben 19%</textarea>
-      <div class="rowbtn noPrint"><button class="gray" onclick="calcEinkauf()">Total berechnen</button><button class="green" onclick="saveEinkauf()">Einkauf buchen</button></div>
-      <div id="eInfo" class="note info">Se pagaste Bar, baixa o Kassenbestand. Se pagaste EC/Rechnung, não baixa a caixa física.</div>
-    </div>
-  </section>
-
-  <section id="ec" class="page hide">
-    <div class="card">
-      <h2>4. EC Terminal / Trinkgeld Kontrolle</h2>
-      <div class="grid">
-        <div><label>Datum</label><input id="tDatum" type="date"></div>
-        <div><label>EC laut Kasse</label><input id="tKasse" type="number" step="0.01" value="123.60"></div>
-        <div><label>EC laut Terminal</label><input id="tTerminal" type="number" step="0.01" value="123.60"></div>
-        <div><label>Grund Differenz</label><select id="tGrund"><option>EC stimmt</option><option>EC-Trinkgeld</option><option>Terminal-Fehleingabe</option><option>Storno / Korrektur</option><option>Ungeklärt</option></select></div>
-      </div>
-      <div class="rowbtn noPrint"><button class="gray" onclick="checkTrinkgeld()">Prüfen</button><button class="green" onclick="saveTrinkgeld()">Dokumentieren</button></div>
-      <div id="tInfo" class="note info">Se Triangle for maior que a Kasse, documenta a diferença. Isso não muda o Barbestand.</div>
-    </div>
-  </section>
-
-  <section id="sturz" class="page hide">
-    <div class="card">
-      <h2>5. Kassensturz – Bargeld zählen</h2>
-      <div class="grid">
-        <div><label>500 €</label><input class="coin" data-v="500" type="number" value="0"></div><div><label>200 €</label><input class="coin" data-v="200" type="number" value="0"></div><div><label>100 €</label><input class="coin" data-v="100" type="number" value="0"></div><div><label>50 €</label><input class="coin" data-v="50" type="number" value="0"></div>
-        <div><label>20 €</label><input class="coin" data-v="20" type="number" value="0"></div><div><label>10 €</label><input class="coin" data-v="10" type="number" value="0"></div><div><label>5 €</label><input class="coin" data-v="5" type="number" value="0"></div><div><label>2 €</label><input class="coin" data-v="2" type="number" value="0"></div>
-        <div><label>1 €</label><input class="coin" data-v="1" type="number" value="0"></div><div><label>0,50 €</label><input class="coin" data-v="0.5" type="number" value="0"></div><div><label>0,20 €</label><input class="coin" data-v="0.2" type="number" value="0"></div><div><label>0,10 €</label><input class="coin" data-v="0.1" type="number" value="0"></div>
-        <div><label>0,05 €</label><input class="coin" data-v="0.05" type="number" value="0"></div><div><label>0,02 €</label><input class="coin" data-v="0.02" type="number" value="0"></div><div><label>0,01 €</label><input class="coin" data-v="0.01" type="number" value="0"></div><div><label>Bemerkung</label><input id="sturzText" placeholder="z.B. Differenz geklärt"></div>
-      </div>
-      <div class="rowbtn noPrint"><button onclick="kassensturz()">Berechnen</button><button class="green" onclick="saveSturz()">Kassensturz speichern</button></div>
-      <div id="sturzInfo" class="note info">Conta notas/moedas e compara com o Soll-Barbestand.</div>
-    </div>
-  </section>
-
-  <section id="report" class="page hide">
-    <div class="card">
-      <h2>Report / Buchungsjournal</h2>
-      <div class="rowbtn noPrint"><button onclick="window.print()">Drucken / PDF</button><button class="blue" onclick="exportCSV()">CSV Export</button><button class="orange" onclick="exportJSON()">Backup JSON</button><button class="red" onclick="resetAll()">Alles löschen</button></div>
-      <table><thead><tr><th>Datum</th><th>Typ</th><th>Beleg</th><th>Text</th><th>Bar +/-</th><th>EC/Bank</th><th>7%</th><th>19%</th><th>0%</th><th>Status</th></tr></thead><tbody id="tbody"></tbody><tfoot><tr><td colspan="4">Summe</td><td id="sumBar">0,00 €</td><td id="sumEC">0,00 €</td><td id="sum7">0,00 €</td><td id="sum19">0,00 €</td><td id="sum0">0,00 €</td><td></td></tr></tfoot></table>
-    </div>
-    <div class="card"><h2>Resumo para o contabilista</h2><div id="berater" class="receipt"></div></div>
-  </section>
-
-  <section id="hilfe" class="page hide">
-    <div class="card">
-      <h2>Anleitung — exatamente como treinar</h2>
-      <div class="grid3">
-        <div class="note success"><b>Z-Bon</b><br>Usa Bar Umsatz como Einzahlung. EC fica separado. Gesamtumsatz serve só para controlar.</div>
-        <div class="note success"><b>Summe Einzahlungen</b><br>Se o Z-Bon mostra 130,00 € Einzahlungen, lança separado como Kasseneinlage/Wechselgeld, 0% IVA.</div>
-        <div class="note success"><b>Einkauf</b><br>Recibo Lidl: divide 7% e 19%. Só baixa caixa se foi pago em Bar.</div>
-      </div>
-      <div class="note danger"><b>Erro perigoso:</b> meter Gesamtumsatz 364,90 € como Einzahlung. Está errado, porque 123,60 € foi EC e não dinheiro físico.</div>
-    </div>
-  </section>
+  <footer>
+    * Baseado nos preços originais do menu Eiscafé San Remo • Bebidas, Sobremesas, Snacks & Especiais
+  </footer>
 </div>
 
 <script>
-const EUR=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
-const key='sanremo_addison_trainer_refeito_v1';
-let rows=JSON.parse(localStorage.getItem(key)||'[]');
-let lastSturz=null;
-['zDatum','mDatum','eDatum','tDatum'].forEach(id=>document.getElementById(id).valueAsDate=new Date());
-calcEinkauf();render();quick();
-function val(id){return Number(document.getElementById(id).value||0)}
-function txt(id){return document.getElementById(id).value||''}
-function tab(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.add('hide'));document.getElementById(id).classList.remove('hide');document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render()}
-function save(){localStorage.setItem(key,JSON.stringify(rows));render();quick()}
-function pill(s){if(s==='OK')return '<span class="pill ok">OK</span>';if(s==='WARN')return '<span class="pill warn">PRÜFEN</span>';return '<span class="pill bad">FEHLER</span>'}
-function checkZbon(){const total=val('zTotal');const tax=val('z7')+val('z19');const pay=val('zBar')+val('zEC');const diffTax=tax-total;const diffPay=pay-total;const soll=val('zBar')+val('zEinzahlungen');let ok=Math.abs(diffTax)<0.02 && Math.abs(diffPay)<0.02;document.getElementById('zInfo').className='note '+(ok?'success':'danger');document.getElementById('zInfo').innerHTML=`<b>Kontrolle:</b><br>7% + 19% = ${EUR.format(tax)} | Gesamtumsatz = ${EUR.format(total)} | Differenz ${EUR.format(diffTax)}<br>Bar + EC = ${EUR.format(pay)} | Differenz ${EUR.format(diffPay)}<br><br><b>ADDISON Bar-Soll:</b> Bar Umsatz ${EUR.format(val('zBar'))} + Einzahlungen ${EUR.format(val('zEinzahlungen'))} = <b>${EUR.format(soll)}</b><br><b>EC:</b> ${EUR.format(val('zEC'))} bleibt separat.`;return ok}
-function bookZbonBar(){const ok=checkZbon();rows.push({datum:txt('zDatum'),typ:'Einzahlung Tagesumsatz Bar',beleg:txt('zNr')||txt('zKasse'),text:`${txt('zKasse')} ${txt('zBediener')} | Gesamt ${EUR.format(val('zTotal'))} | Im Haus ${EUR.format(val('zHaus'))} | Außer Haus ${EUR.format(val('zAusser'))} | EC separat ${EUR.format(val('zEC'))}`,bar:val('zBar'),ec:val('zEC'),u7:val('z7'),u19:val('z19'),u0:0,status:ok?'OK':'WARN'});save()}
-function bookZbonAll(){bookZbonBar();if(val('zEinzahlungen')!==0){rows.push({datum:txt('zDatum'),typ:'Einzahlung Kasseneinlage',beleg:txt('zNr')||'Einlage',text:'Summe Einzahlungen laut Z-Bon / Wechselgeld / Kasseneinlage',bar:val('zEinzahlungen'),ec:0,u7:0,u19:0,u0:val('zEinzahlungen'),status:'OK'});save()}}
-function bookManual(){const betrag=val('mBetrag');const sign=txt('mTyp')==='ein'?1:-1;const mwst=txt('mMwst');rows.push({datum:txt('mDatum'),typ:txt('mTyp')==='ein'?'Einzahlung manuell':'Auszahlung manuell',beleg:txt('mBeleg'),text:`${txt('mZuordnung')} | ${txt('mText')}`,bar:sign*betrag,ec:0,u7:mwst==='7'?sign*betrag:0,u19:mwst==='19'?sign*betrag:0,u0:mwst==='0'?sign*betrag:0,status:'OK'});save()}
-function calcEinkauf(){document.getElementById('eTotal').value=(val('e7')+val('e19')+val('e0')).toFixed(2)}
-['e7','e19','e0'].forEach(id=>document.getElementById(id).addEventListener('input',calcEinkauf));
-function saveEinkauf(){calcEinkauf();const total=val('e7')+val('e19')+val('e0');const zahl=txt('eZahlung');const bar=zahl==='Bar'?-total:0;const ec=zahl==='EC / Karte'?-total:0;rows.push({datum:txt('eDatum'),typ:'Auszahlung Einkauf',beleg:txt('eBeleg')||txt('eLieferant'),text:`${txt('eLieferant')} | ${txt('eText')} | Zahlung: ${zahl}`,bar,ec,u7:-val('e7'),u19:-val('e19'),u0:-val('e0'),status:'OK'});document.getElementById('eInfo').className='note success';document.getElementById('eInfo').innerHTML=zahl==='Bar'?`Gebucht: Barbestand sinkt um ${EUR.format(total)}.`:`Gebucht: Barbestand bleibt gleich, weil Zahlung ${zahl}.`;save()}
-function checkTrinkgeld(){const diff=val('tTerminal')-val('tKasse');const grund=txt('tGrund');let ok=Math.abs(diff)<0.02 || (diff>0 && grund==='EC-Trinkgeld');document.getElementById('tInfo').className='note '+(ok?'success':grund==='Ungeklärt'?'danger':'info');document.getElementById('tInfo').innerHTML=`EC Kasse: ${EUR.format(val('tKasse'))}<br>EC Terminal: ${EUR.format(val('tTerminal'))}<br>Differenz: <b>${EUR.format(diff)}</b><br>Grund: ${grund}`;return diff}
-function saveTrinkgeld(){const diff=checkTrinkgeld();rows.push({datum:txt('tDatum'),typ:'EC Kontrolle',beleg:'Terminal',text:`EC Differenz dokumentiert | Grund: ${txt('tGrund')}`,bar:0,ec:diff,u7:0,u19:0,u0:0,status:txt('tGrund')==='Ungeklärt'?'WARN':'OK'});save()}
-function sum(){return rows.reduce((a,r)=>{a.bar+=r.bar||0;a.ec+=r.ec||0;a.u7+=r.u7||0;a.u19+=r.u19||0;a.u0+=r.u0||0;return a},{bar:0,ec:0,u7:0,u19:0,u0:0})}
-function kassensturz(){let real=0;document.querySelectorAll('.coin').forEach(i=>real+=Number(i.value||0)*Number(i.dataset.v));const soll=sum().bar;const diff=real-soll;lastSturz={real,soll,diff,text:txt('sturzText')};document.getElementById('sturzInfo').className='note '+(Math.abs(diff)<0.02?'success':Math.abs(diff)<=2?'info':'danger');document.getElementById('sturzInfo').innerHTML=`Soll laut Kassenbuch: <b>${EUR.format(soll)}</b><br>Gezählt real: <b>${EUR.format(real)}</b><br>Differenz: <b>${EUR.format(diff)}</b><br>Bemerkung: ${txt('sturzText')||'-'}`;return lastSturz}
-function saveSturz(){const s=lastSturz||kassensturz();rows.push({datum:new Date().toISOString().slice(0,10),typ:'Kassensturz',beleg:'Zählung',text:`Soll ${EUR.format(s.soll)} | Ist ${EUR.format(s.real)} | Differenz ${EUR.format(s.diff)} | ${s.text||''}`,bar:0,ec:0,u7:0,u19:0,u0:0,status:Math.abs(s.diff)<0.02?'OK':'WARN'});save()}
-function render(){const s=sum();document.getElementById('dashBar').textContent=EUR.format(s.bar);document.getElementById('dashEC').textContent=EUR.format(s.ec);document.getElementById('dash7').textContent=EUR.format(s.u7);document.getElementById('dash19').textContent=EUR.format(s.u19);const tb=document.getElementById('tbody');tb.innerHTML='';rows.forEach(r=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${r.datum}</td><td>${r.typ}</td><td>${r.beleg||'-'}</td><td>${r.text}</td><td class="${(r.bar||0)<0?'moneyOut':'moneyIn'}">${EUR.format(r.bar||0)}</td><td>${EUR.format(r.ec||0)}</td><td>${EUR.format(r.u7||0)}</td><td>${EUR.format(r.u19||0)}</td><td>${EUR.format(r.u0||0)}</td><td>${pill(r.status||'OK')}</td>`;tb.appendChild(tr)});document.getElementById('sumBar').textContent=EUR.format(s.bar);document.getElementById('sumEC').textContent=EUR.format(s.ec);document.getElementById('sum7').textContent=EUR.format(s.u7);document.getElementById('sum19').textContent=EUR.format(s.u19);document.getElementById('sum0').textContent=EUR.format(s.u0);document.getElementById('berater').textContent=`Sanremo ADDISON Trainer – Report\n\nSoll-Barbestand: ${EUR.format(s.bar)}\nEC/Bank separat: ${EUR.format(s.ec)}\nBrutto 7% Saldo: ${EUR.format(s.u7)}\nBrutto 19% Saldo: ${EUR.format(s.u19)}\n0% / Einlagen / neutral: ${EUR.format(s.u0)}\n\nWichtig:\nNur Bar verändert den Kassenbestand. EC/Karte bleibt separat. Summe Einzahlungen aus dem Z-Bon wird als Kasseneinlage/Wechselgeld mit 0% dokumentiert.\n\nBuchungen: ${rows.length}`}
-function quick(){document.getElementById('quickExample').textContent=`Treino rápido\n\nSe Z-Bon mostra:\nGesamtumsatz 364,90 €\nBar 241,30 €\nEC 123,60 €\nEinzahlungen 130,00 €\n\nEntão no Kassenbuch:\n+241,30 € Tagesumsatz Bar\n+130,00 € Kasseneinlage\n= 371,30 € Soll-Bar\n\nEC 123,60 € fica separado.`}
-function setZ(total,u7,u19,bar,ec,ein,haus,ausser){document.getElementById('zTotal').value=total;document.getElementById('z7').value=u7;document.getElementById('z19').value=u19;document.getElementById('zBar').value=bar;document.getElementById('zEC').value=ec;document.getElementById('zEinzahlungen').value=ein;document.getElementById('zHaus').value=haus;document.getElementById('zAusser').value=ausser;}
-function loadExample364(){rows=[];setZ('364.90','335.50','29.40','241.30','123.60','130.00','206.80','158.10');bookZbonAll()}
-function loadExample246(){rows=[];setZ('246.20','235.50','10.70','231.70','14.50','0','170.70','75.50');bookZbonAll()}
-function exportCSV(){const out=[['Datum','Typ','Beleg','Text','Bar','EC/Bank','7%','19%','0%','Status']];rows.forEach(r=>out.push([r.datum,r.typ,r.beleg,r.text,r.bar,r.ec,r.u7,r.u19,r.u0,r.status]));const csv=out.map(row=>row.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(';')).join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sanremo_addison_training.csv';a.click()}
-function exportJSON(){const blob=new Blob([JSON.stringify(rows,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sanremo_addison_training_backup.json';a.click()}
-function resetAll(){if(confirm('Alle Trainingsdaten löschen?')){rows=[];localStorage.removeItem(key);render()}}
+  // --------------------------------------------------------------
+  // CATÁLOGO DE PRODUTOS (extraído fielmente das imagens fornecidas)
+  // --------------------------------------------------------------
+  const PRODUCTS = [
+    // ---- EISPORTIONEN / KUGELN (27302) ----
+    { name: "🍦 Eine Kugel Eis (1 Kugel)", price: 1.80, category: "Eisportionen" },
+    { name: "👶 Kinder-Portion (2 Kugeln)", price: 3.50, category: "Eisportionen" },
+    { name: "🥄 Kleine Portion (3 Kugeln)", price: 5.00, category: "Eisportionen" },
+    { name: "🍨 Normale Portion (4 Kugeln)", price: 6.50, category: "Eisportionen" },
+    { name: "🥣 Große Portion (6 Kugeln)", price: 9.50, category: "Eisportionen" },
+    { name: "🍫 Extra: mit Soße", price: 1.00, category: "Zusatz" },
+    { name: "🥃 Extra: mit Likör", price: 1.00, category: "Zusatz" },
+    { name: "🥛 Extra: mit Sahne", price: 1.00, category: "Zusatz" },
+    
+    // ---- KINDER SPAGHETTI (27303) ----
+    { name: "🍝 Spaghetti Bambini (Vanille, Streusel, Smarties)", price: 5.90, category: "Kinder" },
+    { name: "🍫 Kinder Spaghetti Schoko", price: 6.00, category: "Kinder" },
+    { name: "🐻 Kinder Spaghetti Gummibärchen", price: 6.00, category: "Kinder" },
+    { name: "🍓 Kinder Spaghetti Erdbeere (klein 5,70€)", price: 5.70, category: "Kinder" },
+    { name: "🍓 Kinder Spaghetti Erdbeere (groß 6,30€)", price: 6.30, category: "Kinder" },
+    
+    // ---- EISBECHER (27304, 27305 com preços definidos) ----
+    { name: "🥝 Kiwi Becher", price: 9.50, category: "Eisbecher" },
+    { name: "🍓 Frucht Becher", price: 9.50, category: "Eisbecher" },
+    { name: "🥇 Großer Frucht Becher", price: 12.90, category: "Eisbecher" },
+    { name: "🍒 Großer Amarena Becher", price: 12.90, category: "Eisbecher" },
+    { name: "🍓 Großer Erdbeer Becher", price: 12.90, category: "Eisbecher" },
+    { name: "🍌🍓 Erdbeer-Bananebecher", price: 12.90, category: "Eisbecher" },
+    { name: "🍍🍒 Hawaii Becher (Ananas, Kirschen)", price: 9.90, category: "Eisbecher" },
+    { name: "🍒 Amarena Becher", price: 9.50, category: "Eisbecher" },
+    { name: "🍓 Erdbeer Becher", price: 9.50, category: "Eisbecher" },
+    { name: "🍌 Banana Cup (mit Likör & Schokosoße)", price: 9.90, category: "Eisbecher" },
+    { name: "💖 Liebes Traum (Überraschung mit Likör)", price: 13.90, category: "Eisbecher" },
+    { name: "🌴 Exotischer Becher (tropische Früchte, Likör)", price: 13.50, category: "Eisbecher" },
+    { name: "🌲 Wald Becher (Waldfrüchte)", price: 11.90, category: "Eisbecher" },
+    { name: "🇮🇹 Bella Italia (Kiwi & Erdbeere)", price: 12.50, category: "Eisbecher" },
+    { name: "🥭 Mango Becher", price: 9.90, category: "Eisbecher" },
+    
+    // ---- SPAGHETTI-EIS & PIZZA-EIS (27306, 27307) ----
+    { name: "🍝 Spaghetti Eis, normal", price: 9.90, category: "Spaghetti-Eis" },
+    { name: "🍝 Spaghetti Eis, groß", price: 9.90, category: "Spaghetti-Eis" },
+    { name: "🍦 Spaghetti vanille (Vanillesoße)", price: 7.90, category: "Spaghetti-Eis" },
+    { name: "🍓 Spaghetti Erdbeere", price: 9.50, category: "Spaghetti-Eis" },
+    { name: "🥝 Spaghetti Kiwi", price: 8.90, category: "Spaghetti-Eis" },
+    { name: "🍝 Spaghetti carbonara (Nusseis, Nüsse, Likör)", price: 9.90, category: "Spaghetti-Eis" },
+    { name: "🌰 Spaghetti Nubknacker (Schoko, Nüsse, Soßen)", price: 9.90, category: "Spaghetti-Eis" },
+    { name: "🍕 Pizza Magherita (Vanilleeis, Banane, Früchte)", price: 9.90, category: "Spaghetti-Eis" },
+    { name: "🍕 Pizza Grandiosa", price: 13.00, category: "Spaghetti-Eis" },
+    { name: "🍫 Spaghetti vanille-Schoko", price: 7.90, category: "Spaghetti-Eis" },
+    { name: "🍒 Spaghetti Amarena", price: 9.50, category: "Spaghetti-Eis" },
+    { name: "🍇 Spaghetti Waldfrüchte", price: 9.50, category: "Spaghetti-Eis" },
+    { name: "🍈 Spaghetti Melone", price: 9.50, category: "Spaghetti-Eis" },
+    { name: "🍎 Spaghetti Tuttifrutti", price: 9.50, category: "Spaghetti-Eis" },
+    { name: "🍝 Lasagne Eis", price: 9.50, category: "Spaghetti-Eis" },
+    
+    // ---- JOGHURT-SPEZIALITÄTEN (27308, 27309) ----
+    { name: "🥤 Mixgetränke Spezial (Joghurt, Eis, Früchte)", price: 7.00, category: "Joghurt" },
+    { name: "🍫 Joghurrette Becher (Schokoglasur)", price: 9.90, category: "Joghurt" },
+    { name: "🍹 Joghurt Cocktail (frische Früchte)", price: 11.50, category: "Joghurt" },
+    { name: "🥝 Joghurt Kiwi", price: 9.50, category: "Joghurt" },
+    { name: "🍍 Joghurt Ananas", price: 9.50, category: "Joghurt" },
+    { name: "🥣 Müsli Joghurt Becher (mit Honig)", price: 9.50, category: "Joghurt" },
+    { name: "🫐 Joghurt Heidelbeere", price: 9.50, category: "Joghurt" },
+    { name: "🍌 Joghurt Banane", price: 9.50, category: "Joghurt" },
+    { name: "🍒 Joghurt Amarena", price: 9.50, category: "Joghurt" },
+    { name: "🍓 Joghurt Himbeere", price: 9.50, category: "Joghurt" },
+    { name: "🍓 Joghurt Erdbeere", price: 9.50, category: "Joghurt" },
+    
+    // ---- HEISSE BECHER & SPEZIAL (27309) ----
+    { name: "🔥 Heiße Kirschen (Vanilleeis, Sahne)", price: 9.50, category: "Heiße Spezial" },
+    { name: "🍂 Zimt Becher (Milcheis, heiße Kirschen, Zimt)", price: 9.50, category: "Heiße Spezial" },
+    { name: "🇩🇰 Cup Dänemark (Vanilleeis, heiße Schokosoße)", price: 9.50, category: "Heiße Spezial" },
+    { name: "☕ Wiener Mörka (Vanilleeis + Espresso)", price: 9.50, category: "Heiße Spezial" },
+    
+    // ---- KAFFEE, ESPRESSO, HEISSGETRÄNKE (deepseek excel) ----
+    { name: "☕ Espresso", price: 2.30, category: "Kaffee" },
+    { name: "☕ Espresso Macchiato", price: 2.60, category: "Kaffee" },
+    { name: "🥃 Espresso Corretto (mit Spirituose)", price: 3.70, category: "Kaffee" },
+    { name: "☕ Espresso Speciale", price: 2.60, category: "Kaffee" },
+    { name: "☕ Espresso Doppel", price: 3.90, category: "Kaffee" },
+    { name: "☕ Espresso Doppel Macchiato", price: 4.20, category: "Kaffee" },
+    { name: "🍨 Espresso Affogato", price: 3.90, category: "Kaffee" },
+    { name: "☕ Kaffee", price: 2.50, category: "Kaffee" },
+    { name: "☕ Kaffee entkoffeiniert", price: 2.50, category: "Kaffee" },
+    { name: "🍵 Kännchen Kaffee", price: 4.90, category: "Kaffee" },
+    { name: "🥛 Milchkaffee", price: 3.60, category: "Kaffee" },
+    { name: "🥃 Milchkaffee mit Baileys", price: 4.60, category: "Kaffee" },
+    { name: "🥛 Latte Macchiato", price: 3.70, category: "Kaffee" },
+    { name: "🍦 Latte Macchiato Olé (mit Kugel Eis)", price: 5.20, category: "Kaffee" },
+    { name: "🍓 Latte Macchiato Flavour (Sirup)", price: 4.00, category: "Kaffee" },
+    { name: "🍫 Tasse Schokolade", price: 3.20, category: "Heißgetränke" },
+    { name: "🍫 Große Tasse Schokolade", price: 4.40, category: "Heißgetränke" },
+    { name: "🍫 Tasse Schokolade mit Sahne", price: 3.60, category: "Heißgetränke" },
+    { name: "🍰 Cappuccino Italiano", price: 3.00, category: "Kaffee" },
+    { name: "🍰 Cappuccino Groß", price: 3.30, category: "Kaffee" },
+    { name: "🥃 Cappuccino mit Amaretto", price: 4.20, category: "Kaffee" },
+    { name: "🥚 Cappuccino mit Eierlikör", price: 4.20, category: "Kaffee" },
+    { name: "🍀 Cappuccino Aroma (versch. Sorten)", price: 3.40, category: "Kaffee" },
+    { name: "🍋 Heiße Zitrone", price: 2.50, category: "Heißgetränke" },
+    { name: "🍯 Heiße Zitrone mit Honig", price: 2.90, category: "Heißgetränke" },
+    { name: "🥛 Heiße Milch mit Honig", price: 2.90, category: "Heißgetränke" },
+    { name: "🍵 Tee verschiedene Sorten", price: 2.60, category: "Tee" },
+    { name: "🥃 Tee mit Rum", price: 3.60, category: "Tee" },
+    
+    // ---- SNACKS (Flammkuchen, Baguette, Toast) ----
+    { name: "🍕 Flammkuchen Elsässer Art (Speck, Zwiebeln)", price: 9.90, category: "Snacks" },
+    { name: "🐟 Flammkuchen Wildlachs & Shrimps", price: 9.90, category: "Snacks" },
+    { name: "🧀 Flammkuchen Griechische Art (Hirtenkäse)", price: 9.90, category: "Snacks" },
+    { name: "🥖 Salami Baguette (mit Gauda)", price: 6.90, category: "Snacks" },
+    { name: "🥖 Schinken Baguette", price: 6.90, category: "Snacks" },
+    { name: "🍅 Baguette Caprese (Mozzarella, Tomaten)", price: 6.90, category: "Snacks" },
+    { name: "🧀 Toast mit Käse", price: 3.70, category: "Snacks" },
+    { name: "🍖 Toast mit Käse & Vorderschinken", price: 4.30, category: "Snacks" },
+    { name: "🌭 Toast mit Salami & Käse", price: 4.30, category: "Snacks" },
+    { name: "🍍 Toast Hawaii", price: 5.60, category: "Snacks" },
+    
+    // ---- AFFOGATO (Süße Köstlichkeiten) ----
+    { name: "🍦 Affogato al Caffee (Vanilleeis + Espresso)", price: 5.70, category: "Affogato" },
+    { name: "🍯 Affogato al Karamelle", price: 5.70, category: "Affogato" },
+    { name: "🌰 Affogato al Pistazien", price: 6.60, category: "Affogato" },
+    { name: "🥚 Affogato al Eierlikör", price: 6.20, category: "Affogato" },
+    { name: "🍀 Affogato al Baileys", price: 6.60, category: "Affogato" },
+    
+    // ---- WAFFELN & APFELSTRUDEL & TIRAMISU ----
+    { name: "🥧 Apfelstrudel (160g)", price: 4.00, category: "Desserts" },
+    { name: "🍎 Apfelstrudel mit Vanillesauce", price: 4.30, category: "Desserts" },
+    { name: "🍦 Apfelstrudel mit Sahne & Vanillesauce", price: 5.00, category: "Desserts" },
+    { name: "🍨 Apfelstrudel mit Eis & Vanillesauce", price: 5.90, category: "Desserts" },
+    { name: "🍨🍎 Apfelstrudel mit Eis, Sahne, Sauce", price: 6.40, category: "Desserts" },
+    { name: "🍰 Tiramisu klassisch (hausgemacht)", price: 4.50, category: "Desserts" },
+    { name: "🧇 Waffel mit Puderzucker", price: 4.30, category: "Waffeln" },
+    { name: "🧇 Waffel mit Sahne", price: 5.30, category: "Waffeln" },
+    { name: "🍦 Waffel mit Eis", price: 5.60, category: "Waffeln" },
+    { name: "🍦🧁 Waffel mit Eis & Sahne", price: 6.60, category: "Waffeln" },
+    { name: "🍫 Waffel mit Nutella", price: 5.30, category: "Waffeln" },
+    { name: "🍌 Waffel mit Zimt & Banane (Eis, Sahne)", price: 7.10, category: "Waffeln" },
+    { name: "🥭 Waffel mit Joghurt Obstsalat", price: 8.20, category: "Waffeln" },
+    { name: "🍓 Waffel mit Erdbeeren", price: 7.80, category: "Waffeln" },
+    { name: "🫐 Waffel Waldbeeren", price: 7.50, category: "Waffeln" },
+    { name: "🍌🍫 Waffel Schoko-Banane", price: 8.20, category: "Waffeln" },
+    { name: "🍒 Waffel mit heißen Kirschen", price: 7.30, category: "Waffeln" },
+    { name: "🍫 Waffel Schoko (Nutella, Streusel)", price: 7.10, category: "Waffeln" },
+    { name: "🍎 Waffel Tutti Frutti", price: 7.80, category: "Waffeln" },
+    
+    // ---- GETRÄNKE (alkoholfrei, Bier, Wein, Longdrinks) ----
+    { name: "🍺 Krombacher Pils (0,33l)", price: 2.80, category: "Bier" },
+    { name: "🍺 Krombacher Radler (0,33l)", price: 2.80, category: "Bier" },
+    { name: "🍺 Erdinger Weißbier (0,5l)", price: 4.50, category: "Bier" },
+    { name: "🍺 Krombacher Alkoholfrei", price: 2.80, category: "Bier" },
+    { name: "🍺 Erdinger Alkoholfrei (0,5l)", price: 4.50, category: "Bier" },
+    { name: "🥤 Coca Cola (0,2l)", price: 2.70, category: "Softdrinks" },
+    { name: "🥤 Coca Cola Zero (0,2l)", price: 2.70, category: "Softdrinks" },
+    { name: "🍊 Fanta (0,2l)", price: 2.70, category: "Softdrinks" },
+    { name: "🍋 Sprite (0,2l)", price: 2.70, category: "Softdrinks" },
+    { name: "🍎 Apfelschorle Bio (0,25l)", price: 2.90, category: "Softdrinks" },
+    { name: "🧃 Eistee (0,2l)", price: 1.90, category: "Softdrinks" },
+    { name: "💧 Mineralwasser S.Pellegrino (0,25l)", price: 2.40, category: "Softdrinks" },
+    { name: "💧 Mineralwasser S.Pellegrino (0,75l)", price: 5.90, category: "Softdrinks" },
+    { name: "🍇 Wild Berry (0,2l)", price: 2.20, category: "Softdrinks" },
+    { name: "🍸 Tonic Water (0,2l)", price: 2.20, category: "Softdrinks" },
+    { name: "🍷 Rotwein, trocken (0,2l)", price: 4.90, category: "Wein" },
+    { name: "🥂 Weißwein, trocken (0,2l)", price: 4.90, category: "Wein" },
+    { name: "🍾 Campari Sekt (0,2l)", price: 3.90, category: "Wein" },
+    { name: "🥂 Glas Sekt (0,1l)", price: 3.90, category: "Wein" },
+    { name: "🍹 Rosato Bella (Aperitif)", price: 7.00, category: "Aperitif" },
+    { name: "🍹 Rosato Mio", price: 7.00, category: "Aperitif" },
+    { name: "🍹 Rosato Duo", price: 7.00, category: "Aperitif" },
+    { name: "🍸 Aperol (4cl)", price: 7.00, category: "Spirituosen" },
+    { name: "🍹 Hugo (4cl)", price: 7.00, category: "Spirituosen" },
+    { name: "🥃 Grappa (4cl)", price: 4.70, category: "Spirituosen" },
+    { name: "🥃 Amaretto (4cl)", price: 3.20, category: "Spirituosen" },
+    { name: "🍸 Lilet (4cl)", price: 7.00, category: "Spirituosen" }
+  ];
+
+  // categoria única e ordenada
+  const categoriesSet = new Set();
+  PRODUCTS.forEach(p => categoriesSet.add(p.category));
+  const CATEGORIES = ["Todos", ...Array.from(categoriesSet).sort()];
+  
+  let activeCategory = "Todos";
+  let searchTerm = "";
+  let cart = []; // { id, product, quantity }
+  let nextId = 1;
+  
+  // helpers
+  function formatPrice(price) {
+    return price.toFixed(2).replace('.', ',') + " €";
+  }
+  
+  function renderProducts() {
+    const grid = document.getElementById("productsGrid");
+    const filtered = PRODUCTS.filter(p => {
+      const matchCat = activeCategory === "Todos" || p.category === activeCategory;
+      const matchSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchCat && matchSearch;
+    });
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Nenhum produto encontrado 🔍</div>';
+      return;
+    }
+    grid.innerHTML = filtered.map(p => `
+      <div class="product-card" data-name="${p.name.replace(/"/g, '&quot;')}" data-price="${p.price}">
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">
+          <span>${formatPrice(p.price)}</span>
+          <button class="add-btn" data-name="${p.name.replace(/"/g, '&quot;')}" data-price="${p.price}">+ Adicionar</button>
+        </div>
+      </div>
+    `).join('');
+    // eventos dos botoes
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const name = btn.getAttribute('data-name');
+        const price = parseFloat(btn.getAttribute('data-price'));
+        addToCart(name, price);
+      });
+    });
+  }
+  
+  function addToCart(name, price) {
+    const existing = cart.find(item => item.product.name === name && item.product.price === price);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ id: nextId++, product: { name, price }, quantity: 1 });
+    }
+    renderCart();
+  }
+  
+  function renderCart() {
+    const container = document.getElementById("cartItemsContainer");
+    if (cart.length === 0) {
+      container.innerHTML = '<div class="empty-cart">🛒 Carrinho vazio. Selecione produtos ao lado.</div>';
+      document.getElementById("cartTotal").innerText = "0,00 €";
+      return;
+    }
+    let total = 0;
+    container.innerHTML = cart.map(item => {
+      const subtotal = item.product.price * item.quantity;
+      total += subtotal;
+      return `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.product.name}</div>
+            <div class="cart-item-price">${formatPrice(item.product.price)}</div>
+          </div>
+          <div class="cart-item-qty">
+            <button class="qty-btn decr" data-id="${item.id}">−</button>
+            <span class="qty-num">${item.quantity}</span>
+            <button class="qty-btn incr" data-id="${item.id}">+</button>
+          </div>
+          <div class="cart-item-total">${formatPrice(subtotal)}</div>
+          <button class="remove-item" data-id="${item.id}">🗑️</button>
+        </div>
+      `;
+    }).join('');
+    document.getElementById("cartTotal").innerHTML = formatPrice(total);
+    // eventos
+    document.querySelectorAll('.decr').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        updateQuantity(id, -1);
+      });
+    });
+    document.querySelectorAll('.incr').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        updateQuantity(id, 1);
+      });
+    });
+    document.querySelectorAll('.remove-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        removeCartItem(id);
+      });
+    });
+  }
+  
+  function updateQuantity(id, delta) {
+    const idx = cart.findIndex(i => i.id === id);
+    if (idx !== -1) {
+      const newQty = cart[idx].quantity + delta;
+      if (newQty <= 0) {
+        cart.splice(idx, 1);
+      } else {
+        cart[idx].quantity = newQty;
+      }
+      renderCart();
+    }
+  }
+  
+  function removeCartItem(id) {
+    cart = cart.filter(i => i.id !== id);
+    renderCart();
+  }
+  
+  function clearCart() {
+    cart = [];
+    renderCart();
+  }
+  
+  function checkout() {
+    if (cart.length === 0) {
+      alert("🛎️ Carrinho vazio! Adicione produtos para finalizar.");
+      return;
+    }
+    const total = cart.reduce((sum, i) => sum + (i.product.price * i.quantity), 0);
+    alert(`🧾 Venda finalizada!\nTotal: ${formatPrice(total)}\nObrigado pelo pedido! 🍦`);
+    clearCart();
+  }
+  
+  // eventos UI
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    searchTerm = e.target.value;
+    renderProducts();
+  });
+  document.getElementById("clearCartBtn").addEventListener("click", clearCart);
+  document.getElementById("checkoutBtn").addEventListener("click", checkout);
+  
+  function buildCategoryButtons() {
+    const container = document.getElementById("categoryFilters");
+    container.innerHTML = CATEGORIES.map(cat => `
+      <button class="cat-btn ${activeCategory === cat ? 'active' : ''}" data-cat="${cat}">${cat}</button>
+    `).join('');
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.getAttribute('data-cat');
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderProducts();
+      });
+    });
+  }
+  
+  buildCategoryButtons();
+  renderProducts();
+  renderCart();
 </script>
 </body>
 </html>
