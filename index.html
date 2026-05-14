@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -18,28 +18,21 @@
             color: #1e2f2c;
         }
 
-        /* Container estilo app */
         .app-container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 28px;
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             padding: 20px 24px;
-            transition: all 0.2s;
         }
 
         @media (max-width: 750px) {
-            body {
-                padding: 8px;
-            }
-            .app-container {
-                padding: 14px;
-            }
+            body { padding: 8px; }
+            .app-container { padding: 14px; }
         }
 
-        /* cabeçalho */
         .header-flex {
             display: flex;
             flex-wrap: wrap;
@@ -49,15 +42,8 @@
             padding-bottom: 12px;
             margin-bottom: 18px;
         }
-        .title h1 {
-            font-size: 1.8rem;
-            color: #2b5e3b;
-        }
-        .title p {
-            color: #5b6e55;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
+        .title h1 { font-size: 1.8rem; color: #2b5e3b; }
+        .title p { color: #5b6e55; font-weight: 500; font-size: 0.9rem; }
         .datetime-panel {
             background: #f8faf5;
             padding: 6px 16px;
@@ -66,11 +52,6 @@
             gap: 18px;
             flex-wrap: wrap;
             align-items: center;
-            font-size: 0.85rem;
-        }
-        .datetime-panel label {
-            font-weight: 700;
-            color: #2f6b47;
         }
         .datetime-panel input {
             background: white;
@@ -86,18 +67,13 @@
             padding: 6px 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
         }
-        .btn-icon:hover {
-            background: #d9e5d4;
-        }
-
         .info-row {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin: 15px 0 20px 0;
+            margin: 15px 0 20px;
             gap: 12px;
         }
         .verant-field {
@@ -108,35 +84,18 @@
             gap: 12px;
             align-items: center;
         }
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .action-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
         .btn {
             border: none;
             background: #f0f4ef;
             padding: 8px 18px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.8rem;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-        .btn-primary {
-            background: #2b5e3b;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #1e462c;
-        }
-        .btn-outline {
-            background: white;
-            border: 1px solid #bdd3c2;
-        }
+        .btn-primary { background: #2b5e3b; color: white; }
+        .btn-outline { background: white; border: 1px solid #bdd3c2; }
 
-        /* Seções compactas */
         .card-section {
             background: #ffffff;
             border-radius: 20px;
@@ -156,13 +115,12 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.75rem;
-            min-width: 500px;
+            min-width: 700px;
         }
         .compact-table th {
             background: #f1f8ee;
             padding: 10px 6px;
             text-align: center;
-            font-weight: 700;
             border-bottom: 1px solid #d3e2d0;
         }
         .compact-table td {
@@ -170,32 +128,34 @@
             border-bottom: 1px solid #ecf3e8;
             vertical-align: middle;
         }
-        .compact-table tr:last-child td {
-            border-bottom: none;
-        }
-        .checkbox-cell {
-            text-align: center;
-            width: 55px;
-        }
-        .checkbox-cell input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #2b5e3b;
-        }
+        .checkbox-cell { text-align: center; width: 55px; }
+        .checkbox-cell input { width: 18px; height: 18px; accent-color: #2b5e3b; }
         .input-sm {
             width: 100%;
             padding: 6px 6px;
             border: 1px solid #cbdcd0;
             border-radius: 16px;
             font-size: 0.7rem;
-            background: white;
         }
-        .input-kuerzel {
+        .input-kuerzel { width: 70px; text-align: center; }
+        .temp-select {
             width: 70px;
-            text-align: center;
+            padding: 5px;
+            border-radius: 20px;
+            border: 1px solid #cbdcd0;
+            background: white;
+            font-size: 0.7rem;
         }
-        /* Tabela de higiene compacta */
+        .btn-vorlage {
+            background: #e9f0e5;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 8px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            margin-left: 5px;
+            white-space: nowrap;
+        }
         .hygiene-table {
             width: 100%;
             border-collapse: collapse;
@@ -205,21 +165,12 @@
             padding: 8px 12px;
             border-bottom: 1px solid #e6ede2;
         }
-        .radio-group {
-            display: flex;
-            gap: 16px;
-        }
-        .radio-group label {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
+        .radio-group { display: flex; gap: 16px; }
         .remarks-area textarea {
             width: 100%;
             border-radius: 20px;
             border: 1px solid #cbdcd0;
             padding: 12px;
-            font-size: 0.85rem;
             margin-top: 8px;
         }
         .signature-line {
@@ -237,7 +188,6 @@
             border-bottom: 2px solid #caddc5;
             padding: 8px 6px;
             background: #fefef8;
-            font-size: 0.9rem;
         }
         .footer-note {
             font-size: 0.65rem;
@@ -246,74 +196,14 @@
             color: #6b7c64;
         }
 
-        /* ESTILOS EXCLUSIVOS PARA IMPRESSÃO - CABE EM POUCAS FOLHAS */
         @media print {
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            .app-container {
-                max-width: 100%;
-                padding: 0.2in;
-                margin: 0;
-                border-radius: 0;
-                box-shadow: none;
-            }
-            .action-buttons, .btn-icon, .btn, #refreshDateTimeBtn, .action-buttons button {
-                display: none !important;
-            }
-            .datetime-panel input, .verant-field input, .signature-line input {
-                border: 1px solid #aaa !important;
-                background: white !important;
-            }
-            .compact-table th, .compact-table td {
-                border: 1px solid #ccc !important;
-                padding: 5px 3px !important;
-            }
-            .checkbox-cell input {
-                transform: scale(0.9);
-                opacity: 1 !important;
-                border: 1px solid black;
-            }
-            .card-section {
-                break-inside: avoid;
-                page-break-inside: avoid;
-                margin-bottom: 12px;
-            }
-            /* reduzir margens e fontes para menos folhas */
-            .card-title {
-                font-size: 12pt;
-                padding: 4px 8px;
-            }
-            .compact-table {
-                font-size: 9pt;
-            }
-            .hygiene-table {
-                font-size: 9pt;
-            }
-            .input-sm, .input-kuerzel {
-                border: none;
-                border-bottom: 1px solid #000;
-                background: transparent;
-                padding: 2px;
-            }
-            .footer-note {
-                display: none;
-            }
-            .header-flex {
-                margin-bottom: 8px;
-            }
-            .title h1 {
-                font-size: 16pt;
-            }
-            .info-row {
-                margin: 5px 0;
-            }
-            /* evitar quebras dentro das tabelas maiores */
-            .compact-table tr {
-                break-inside: avoid;
-            }
+            body { background: white; padding: 0; margin: 0; }
+            .app-container { max-width: 100%; padding: 0.1in; margin: 0; box-shadow: none; }
+            .action-buttons, .btn-icon, .btn, #refreshDateTimeBtn, .btn-vorlage { display: none !important; }
+            .compact-table th, .compact-table td { border: 1px solid #ccc !important; padding: 5px 3px; }
+            .checkbox-cell input { transform: scale(0.9); }
+            .card-section { break-inside: avoid; page-break-inside: avoid; }
+            .temp-select { border: 1px solid black; background: white; }
         }
     </style>
 </head>
@@ -322,7 +212,7 @@
     <div class="header-flex">
         <div class="title">
             <h1>🍨 HACCP – Eiscafé Sanremo</h1>
-            <p>Kontrolle täglich vor Arbeitsbeginn | Hygiene- & Kontrollprotokoll</p>
+            <p>Tägliche Morgenkontrolle | Hygiene- & Temperaturprotokoll</p>
         </div>
         <div class="datetime-panel">
             <div><label>📅 Datum</label> <input type="date" id="protocolDate"></div>
@@ -334,7 +224,7 @@
     <div class="info-row">
         <div class="verant-field">
             <span>🧑‍🍳 Verantwortlich:</span>
-            <input type="text" id="verantwortlich" value="Paolo" style="border:1px solid #dbebd2; border-radius: 40px; padding: 6px 14px;">
+            <input type="text" id="verantwortlich" value="Paolo" style="border:1px solid #dbebd2; border-radius:40px; padding:6px 14px;">
         </div>
         <div class="action-buttons">
             <button type="button" id="saveBtn" class="btn btn-primary">💾 Speichern</button>
@@ -344,40 +234,40 @@
         </div>
     </div>
 
-    <!-- Tiefkühlgeräte (8) -->
+    <!-- Tiefkühlgeräte mit Temperatur -30..0 -->
     <div class="card-section">
-        <div class="card-title">❄️ Tiefkühlgeräte (≤ -18°C)</div>
+        <div class="card-title">❄️ Tiefkühlgeräte (≤ -18°C) · Temperatur (°C)</div>
         <div class="table-wrapper">
             <table class="compact-table" id="tiefkuehlTable">
-                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Bemerkung</th><th>Kürzel</th></tr></thead>
+                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Temp. (°C)</th><th>Bemerkung</th><th>Kürzel</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
     </div>
 
-    <!-- Kühlgeräte (5) -->
+    <!-- Kühlgeräte mit Temperatur 0..10 -->
     <div class="card-section">
-        <div class="card-title">🧊 Kühlgeräte (0°C – 7°C)</div>
+        <div class="card-title">🧊 Kühlgeräte (0°C – 7°C) · Temperatur (°C)</div>
         <div class="table-wrapper">
             <table class="compact-table" id="kuehlTable">
-                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Bemerkung</th><th>Kürzel</th></tr></thead>
+                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Temp. (°C)</th><th>Bemerkung</th><th>Kürzel</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
     </div>
 
-    <!-- Produktionsgeräte -->
+    <!-- Produktionsgeräte mit Vorlagen-Button -->
     <div class="card-section">
-        <div class="card-title">⚙️ Produktionsgeräte</div>
+        <div class="card-title">⚙️ Produktionsgeräte · mit Desinfektionsvorlage</div>
         <div class="table-wrapper">
             <table class="compact-table" id="produktionTable">
-                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Bemerkung</th><th>Kürzel</th></tr></thead>
+                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Bemerkung (Vorlage verfügbar)</th><th>Kürzel</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
     </div>
 
-    <!-- Allgemeine Hygiene kompakt -->
+    <!-- Allgemeine Hygiene -->
     <div class="card-section">
         <div class="card-title">🧼 Allgemeine Hygiene</div>
         <table class="hygiene-table">
@@ -391,7 +281,7 @@
         </table>
     </div>
 
-    <!-- Bemerkungen und Unterschrift -->
+    <!-- Bemerkungen + Unterschrift -->
     <div class="card-section remarks-area" style="padding: 8px 16px 16px 16px;">
         <div style="font-weight: 700; margin-bottom: 4px;">📝 Zusätzliche Bemerkungen</div>
         <textarea id="globalBemerkungen" rows="2" placeholder="Temperaturabweichungen, Reparaturen, Maßnahmen..."></textarea>
@@ -400,9 +290,7 @@
             <input type="text" id="unterschrift" placeholder="Name / digitale Signatur">
         </div>
     </div>
-    <div class="footer-note">
-        ✅ Tägliche Kontrolle vor Betriebsbeginn - Jedes Gerät prüfen und reinigen dokumentieren | App & druckoptimiert
-    </div>
+    <div class="footer-note">✅ Tägliche Kontrolle vor Arbeitsbeginn | Temperaturdokumentation | Vorlagetext für Produktionsgeräte</div>
 </div>
 
 <script>
@@ -411,51 +299,118 @@
     const kuehlListe = Array.from({length: 5}, (_, i) => `Kühlschrank ${i+1}`);
     const produktionsListe = ["Milchkocher 1", "Milchkocher 2", "Milchkocher 3", "Sahnemaschine"];
 
-    // Hilfsfunktion: Tabelle dynamisch befüllen
-    function buildTable(tableId, geraete, prefix) {
-        const tbody = document.querySelector(`#${tableId} tbody`);
-        if (!tbody) return;
-        tbody.innerHTML = '';
-        geraete.forEach((geraet, idx) => {
+    // Temperaturbereiche
+    const negTempOptions = Array.from({length: 31}, (_, i) => -30 + i); // -30 .. 0
+    const posTempOptions = Array.from({length: 11}, (_, i) => i);       // 0 .. 10
+
+    // Hilfsfunktion: Select-Element für Temperatur
+    function createTempSelect(bereich, initialValue = "") {
+        const select = document.createElement("select");
+        select.className = "temp-select";
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "---";
+        select.appendChild(defaultOption);
+        bereich.forEach(val => {
+            const opt = document.createElement("option");
+            opt.value = val;
+            opt.textContent = val;
+            select.appendChild(opt);
+        });
+        if (initialValue !== "" && bereich.includes(parseInt(initialValue))) {
+            select.value = initialValue;
+        }
+        return select;
+    }
+
+    // Tabellen dynamisch aufbauen
+    function buildTiefkuehlTable() {
+        const tbody = document.querySelector("#tiefkuehlTable tbody");
+        tbody.innerHTML = "";
+        tiefkuehlListe.forEach((geraet, idx) => {
             const row = tbody.insertRow();
-            // Gerätename
-            const cellName = row.insertCell(0);
-            cellName.textContent = geraet;
-            cellName.style.fontWeight = '500';
-            // Kontrolliert checkbox
-            const cellCtrl = row.insertCell(1);
-            cellCtrl.classList.add('checkbox-cell');
-            const chkKontrolle = document.createElement('input');
-            chkKontrolle.type = 'checkbox';
-            chkKontrolle.id = `${prefix}_${idx+1}_kontrolliert`;
-            cellCtrl.appendChild(chkKontrolle);
-            // Gereinigt checkbox
-            const cellClean = row.insertCell(2);
-            cellClean.classList.add('checkbox-cell');
-            const chkClean = document.createElement('input');
-            chkClean.type = 'checkbox';
-            chkClean.id = `${prefix}_${idx+1}_gereinigt`;
-            cellClean.appendChild(chkClean);
-            // Bemerkung Input
-            const cellRemark = row.insertCell(3);
-            const remarkInput = document.createElement('input');
-            remarkInput.type = 'text';
-            remarkInput.classList.add('input-sm');
-            remarkInput.placeholder = "...";
-            remarkInput.id = `${prefix}_${idx+1}_bemerkungen`;
+            row.insertCell(0).textContent = geraet;
+            // Kontrolle
+            const cellCtrl = row.insertCell(1); cellCtrl.classList.add("checkbox-cell");
+            const chkK = document.createElement("input"); chkK.type = "checkbox"; chkK.id = `tf_${idx+1}_kontrolliert`;
+            cellCtrl.appendChild(chkK);
+            // Reinigung
+            const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
+            const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `tf_${idx+1}_gereinigt`;
+            cellClean.appendChild(chkR);
+            // Temperatur (negativ)
+            const cellTemp = row.insertCell(3);
+            const tempSelect = createTempSelect(negTempOptions, "");
+            tempSelect.id = `tf_${idx+1}_temp`;
+            cellTemp.appendChild(tempSelect);
+            // Bemerkung
+            const cellRemark = row.insertCell(4);
+            const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "optional..."; remarkInput.id = `tf_${idx+1}_bemerkungen`;
             cellRemark.appendChild(remarkInput);
-            // Kürzel Input
-            const cellKuerzel = row.insertCell(4);
-            const kuerzelInput = document.createElement('input');
-            kuerzelInput.type = 'text';
-            kuerzelInput.classList.add('input-sm', 'input-kuerzel');
-            kuerzelInput.placeholder = "KZ";
-            kuerzelInput.id = `${prefix}_${idx+1}_kuerzel`;
+            // Kürzel
+            const cellKuerzel = row.insertCell(5);
+            const kuerzelInput = document.createElement("input"); kuerzelInput.type = "text"; kuerzelInput.classList.add("input-sm","input-kuerzel"); kuerzelInput.placeholder = "KZ"; kuerzelInput.id = `tf_${idx+1}_kuerzel`;
             cellKuerzel.appendChild(kuerzelInput);
         });
     }
 
-    // Daten sammeln (für localStorage)
+    function buildKuehlTable() {
+        const tbody = document.querySelector("#kuehlTable tbody");
+        tbody.innerHTML = "";
+        kuehlListe.forEach((geraet, idx) => {
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = geraet;
+            const cellCtrl = row.insertCell(1); cellCtrl.classList.add("checkbox-cell");
+            const chkK = document.createElement("input"); chkK.type = "checkbox"; chkK.id = `ks_${idx+1}_kontrolliert`;
+            cellCtrl.appendChild(chkK);
+            const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
+            const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `ks_${idx+1}_gereinigt`;
+            cellClean.appendChild(chkR);
+            // Temperatur positiv
+            const cellTemp = row.insertCell(3);
+            const tempSelect = createTempSelect(posTempOptions, "");
+            tempSelect.id = `ks_${idx+1}_temp`;
+            cellTemp.appendChild(tempSelect);
+            const cellRemark = row.insertCell(4);
+            const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "optional..."; remarkInput.id = `ks_${idx+1}_bemerkungen`;
+            cellRemark.appendChild(remarkInput);
+            const cellKuerzel = row.insertCell(5);
+            const kuerzelInput = document.createElement("input"); kuerzelInput.type = "text"; kuerzelInput.classList.add("input-sm","input-kuerzel"); kuerzelInput.placeholder = "KZ"; kuerzelInput.id = `ks_${idx+1}_kuerzel`;
+            cellKuerzel.appendChild(kuerzelInput);
+        });
+    }
+
+    function buildProduktionTable() {
+        const tbody = document.querySelector("#produktionTable tbody");
+        tbody.innerHTML = "";
+        produktionsListe.forEach((geraet, idx) => {
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = geraet;
+            const cellCtrl = row.insertCell(1); cellCtrl.classList.add("checkbox-cell");
+            const chkK = document.createElement("input"); chkK.type = "checkbox"; chkK.id = `prod_${idx+1}_kontrolliert`;
+            cellCtrl.appendChild(chkK);
+            const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
+            const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `prod_${idx+1}_gereinigt`;
+            cellClean.appendChild(chkR);
+            // Bemerkung mit Vorlagen-Button
+            const cellRemark = row.insertCell(3);
+            const wrapper = document.createElement("div"); wrapper.style.display = "flex"; wrapper.style.gap = "5px"; wrapper.style.alignItems = "center";
+            const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "Bemerkung..."; remarkInput.id = `prod_${idx+1}_bemerkungen`; remarkInput.style.flex = "1";
+            const vorlageBtn = document.createElement("button"); vorlageBtn.textContent = "📋 Vorlage"; vorlageBtn.className = "btn-vorlage"; vorlageBtn.title = "Einfügen: Das Gerät wurde vollständig zerlegt, gereinigt und desinfiziert.";
+            vorlageBtn.addEventListener("click", () => {
+                remarkInput.value = "Das Gerät wurde vollständig zerlegt, gereinigt und desinfiziert.";
+            });
+            wrapper.appendChild(remarkInput);
+            wrapper.appendChild(vorlageBtn);
+            cellRemark.appendChild(wrapper);
+            // Kürzel
+            const cellKuerzel = row.insertCell(4);
+            const kuerzelInput = document.createElement("input"); kuerzelInput.type = "text"; kuerzelInput.classList.add("input-sm","input-kuerzel"); kuerzelInput.placeholder = "KZ"; kuerzelInput.id = `prod_${idx+1}_kuerzel`;
+            cellKuerzel.appendChild(kuerzelInput);
+        });
+    }
+
+    // ---------- SPEICHERN / LADEN (inkl. Temperaturen) ----------
     function collectData() {
         const data = {
             meta: {
@@ -471,15 +426,13 @@
                 muell: { wert: getRadioVal('hygiene_muell'), kuerzel: getVal('hy_muell_kürzel') },
                 personal: { wert: getRadioVal('hygiene_personal'), kuerzel: getVal('hy_personal_kürzel') }
             },
-            geraete: {
-                tf: [], ks: [], prod: []
-            }
+            geraete: { tf: [], ks: [], prod: [] }
         };
-        // Tiefkühler (8)
         for (let i=1; i<=8; i++) {
             data.geraete.tf.push({
                 kontrolliert: getCheck(`tf_${i}_kontrolliert`),
                 gereinigt: getCheck(`tf_${i}_gereinigt`),
+                temperatur: getSelectVal(`tf_${i}_temp`),
                 bemerkungen: getVal(`tf_${i}_bemerkungen`),
                 kuerzel: getVal(`tf_${i}_kuerzel`)
             });
@@ -488,6 +441,7 @@
             data.geraete.ks.push({
                 kontrolliert: getCheck(`ks_${i}_kontrolliert`),
                 gereinigt: getCheck(`ks_${i}_gereinigt`),
+                temperatur: getSelectVal(`ks_${i}_temp`),
                 bemerkungen: getVal(`ks_${i}_bemerkungen`),
                 kuerzel: getVal(`ks_${i}_kuerzel`)
             });
@@ -503,27 +457,16 @@
         return data;
     }
 
-    function getRadioVal(name) {
-        const radios = document.getElementsByName(name);
-        for(let r of radios) if(r.checked) return r.value;
-        return '';
-    }
-    function getCheck(id) { const el = document.getElementById(id); return el ? el.checked : false; }
-    function getVal(id) { const el = document.getElementById(id); return el ? el.value : ''; }
-    function setRadioVal(name, val) {
-        const radios = document.getElementsByName(name);
-        for(let r of radios) if(r.value === val) r.checked = true;
-    }
     function restoreData(data) {
         if (!data) return;
         if (data.meta) {
-            if(data.meta.datum) document.getElementById('protocolDate').value = data.meta.datum;
-            if(data.meta.uhrzeit) document.getElementById('protocolTime').value = data.meta.uhrzeit;
-            if(data.meta.verantwortlich) document.getElementById('verantwortlich').value = data.meta.verantwortlich;
-            if(data.meta.unterschrift) document.getElementById('unterschrift').value = data.meta.unterschrift;
-            if(data.meta.globalBemerkungen) document.getElementById('globalBemerkungen').value = data.meta.globalBemerkungen;
+            setVal('protocolDate', data.meta.datum);
+            setVal('protocolTime', data.meta.uhrzeit);
+            setVal('verantwortlich', data.meta.verantwortlich);
+            setVal('unterschrift', data.meta.unterschrift);
+            setVal('globalBemerkungen', data.meta.globalBemerkungen);
         }
-        if(data.hygiene) {
+        if (data.hygiene) {
             setRadioVal('hygiene_arbeit', data.hygiene.arbeit.wert);
             setRadioVal('hygiene_boden', data.hygiene.boden.wert);
             setRadioVal('hygiene_muell', data.hygiene.muell.wert);
@@ -533,20 +476,22 @@
             setVal('hy_muell_kürzel', data.hygiene.muell.kuerzel);
             setVal('hy_personal_kürzel', data.hygiene.personal.kuerzel);
         }
-        if(data.geraete) {
-            for(let i=0; i<data.geraete.tf.length && i<8; i++) {
+        if (data.geraete) {
+            for (let i=0; i<data.geraete.tf.length && i<8; i++) {
                 setCheck(`tf_${i+1}_kontrolliert`, data.geraete.tf[i].kontrolliert);
                 setCheck(`tf_${i+1}_gereinigt`, data.geraete.tf[i].gereinigt);
+                setSelectVal(`tf_${i+1}_temp`, data.geraete.tf[i].temperatur);
                 setVal(`tf_${i+1}_bemerkungen`, data.geraete.tf[i].bemerkungen);
                 setVal(`tf_${i+1}_kuerzel`, data.geraete.tf[i].kuerzel);
             }
-            for(let i=0; i<data.geraete.ks.length && i<5; i++) {
+            for (let i=0; i<data.geraete.ks.length && i<5; i++) {
                 setCheck(`ks_${i+1}_kontrolliert`, data.geraete.ks[i].kontrolliert);
                 setCheck(`ks_${i+1}_gereinigt`, data.geraete.ks[i].gereinigt);
+                setSelectVal(`ks_${i+1}_temp`, data.geraete.ks[i].temperatur);
                 setVal(`ks_${i+1}_bemerkungen`, data.geraete.ks[i].bemerkungen);
                 setVal(`ks_${i+1}_kuerzel`, data.geraete.ks[i].kuerzel);
             }
-            for(let i=0; i<data.geraete.prod.length && i<4; i++) {
+            for (let i=0; i<data.geraete.prod.length && i<4; i++) {
                 setCheck(`prod_${i+1}_kontrolliert`, data.geraete.prod[i].kontrolliert);
                 setCheck(`prod_${i+1}_gereinigt`, data.geraete.prod[i].gereinigt);
                 setVal(`prod_${i+1}_bemerkungen`, data.geraete.prod[i].bemerkungen);
@@ -554,68 +499,54 @@
             }
         }
     }
-    function setVal(id, val) { const el = document.getElementById(id); if(el) el.value = val || ''; }
-    function setCheck(id, val) { const el = document.getElementById(id); if(el) el.checked = val === true; }
+
+    // Helper
+    function getRadioVal(name) { let r = document.getElementsByName(name); for(let x of r) if(x.checked) return x.value; return ''; }
+    function getCheck(id) { let el = document.getElementById(id); return el ? el.checked : false; }
+    function getVal(id) { let el = document.getElementById(id); return el ? el.value : ''; }
+    function getSelectVal(id) { let el = document.getElementById(id); return el ? el.value : ''; }
+    function setVal(id, val) { let el = document.getElementById(id); if(el) el.value = val || ''; }
+    function setCheck(id, val) { let el = document.getElementById(id); if(el) el.checked = val === true; }
+    function setSelectVal(id, val) { let el = document.getElementById(id); if(el && val !== undefined && val !== "") el.value = val; }
+    function setRadioVal(name, val) { let radios = document.getElementsByName(name); for(let r of radios) if(r.value === val) r.checked = true; }
 
     function resetAll() {
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
         document.querySelectorAll('input[type="text"]').forEach(inp => {
-            if(!['verantwortlich','protocolDate','protocolTime'].includes(inp.id) && inp.id !== 'unterschrift')
-                inp.value = '';
+            if(!['verantwortlich','protocolDate','protocolTime'].includes(inp.id) && inp.id !== 'unterschrift') inp.value = '';
         });
+        document.querySelectorAll('select').forEach(sel => sel.value = '');
         document.querySelectorAll('textarea').forEach(ta => ta.value = '');
         document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
         document.getElementById('verantwortlich').value = 'Paolo';
         document.getElementById('unterschrift').value = '';
-        document.getElementById('globalBemerkungen').value = '';
         refreshDateTimeNow();
-        // hygiene kürzel limpar manual
-        ['hy_arbeit_kürzel','hy_boden_kürzel','hy_muell_kürzel','hy_personal_kürzel'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = ''; });
+        ['hy_arbeit_kürzel','hy_boden_kürzel','hy_muell_kürzel','hy_personal_kürzel'].forEach(id => setVal(id,''));
     }
 
     function refreshDateTimeNow() {
         const now = new Date();
-        const yyyy = now.getFullYear();
-        const mm = String(now.getMonth()+1).padStart(2,'0');
-        const dd = String(now.getDate()).padStart(2,'0');
-        document.getElementById('protocolDate').value = `${yyyy}-${mm}-${dd}`;
-        const hh = String(now.getHours()).padStart(2,'0');
-        const min = String(now.getMinutes()).padStart(2,'0');
-        document.getElementById('protocolTime').value = `${hh}:${min}`;
+        document.getElementById('protocolDate').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+        document.getElementById('protocolTime').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
     }
-
-    function saveToLocal() {
-        const full = collectData();
-        localStorage.setItem('Sanremo_HACCP_App', JSON.stringify(full));
-        alert('✅ Protokoll gespeichert!');
-    }
+    function saveToLocal() { localStorage.setItem('Sanremo_HACCP_App', JSON.stringify(collectData())); alert('✅ Protokoll gespeichert!'); }
     function loadFromLocal() {
-        const saved = localStorage.getItem('Sanremo_HACCP_App');
+        let saved = localStorage.getItem('Sanremo_HACCP_App');
         if(!saved) { alert('Kein gespeichertes Protokoll.'); return; }
-        try {
-            const data = JSON.parse(saved);
-            restoreData(data);
-            alert('📋 Geladen');
-        } catch(e) { alert('Fehler'); }
+        try { restoreData(JSON.parse(saved)); alert('📋 Geladen'); } catch(e) { alert('Fehler'); }
     }
+    function printOptimized() { window.print(); }
 
-    function printOptimized() {
-        window.print();
-    }
-
-    // Inicialização
     function init() {
-        buildTable('tiefkuehlTable', tiefkuehlListe, 'tf');
-        buildTable('kuehlTable', kuehlListe, 'ks');
-        buildTable('produktionTable', produktionsListe, 'prod');
+        buildTiefkuehlTable();
+        buildKuehlTable();
+        buildProduktionTable();
         refreshDateTimeNow();
-        // Eventos
         document.getElementById('saveBtn').addEventListener('click', saveToLocal);
         document.getElementById('loadBtn').addEventListener('click', loadFromLocal);
         document.getElementById('resetBtn').addEventListener('click', () => { if(confirm('Alles zurücksetzen?')) resetAll(); });
         document.getElementById('printBtn').addEventListener('click', printOptimized);
         document.getElementById('refreshDateTimeBtn').addEventListener('click', refreshDateTimeNow);
-        // fallback: caso haja dados anteriores carregar automaticamente? opcional
     }
     init();
 </script>
