@@ -256,7 +256,7 @@
         </div>
     </div>
 
-    <!-- Produktionsgeräte mit Vorlagen-Button -->
+    <!-- Produktionsgeräte mit Vorlagen-Button (incl. Spülmaschine & Abfüllmaschine) -->
     <div class="card-section">
         <div class="card-title">⚙️ Produktionsgeräte · mit Desinfektionsvorlage</div>
         <div class="table-wrapper">
@@ -290,14 +290,18 @@
             <input type="text" id="unterschrift" placeholder="Name / digitale Signatur">
         </div>
     </div>
-    <div class="footer-note">✅ Tägliche Kontrolle vor Arbeitsbeginn | Temperaturdokumentation | Vorlagetext für Produktionsgeräte</div>
+    <div class="footer-note">✅ Tägliche Kontrolle vor Arbeitsbeginn | Temperaturdokumentation | Vorlagetext für alle Produktionsgeräte</div>
 </div>
 
 <script>
     // ========== GERÄTELISTEN ==========
     const tiefkuehlListe = Array.from({length: 8}, (_, i) => `Tiefkühler ${i+1}`);
     const kuehlListe = Array.from({length: 5}, (_, i) => `Kühlschrank ${i+1}`);
-    const produktionsListe = ["Milchkocher 1", "Milchkocher 2", "Milchkocher 3", "Sahnemaschine"];
+    // Produktionsgeräte: 4 anteriores + Spülmaschine + Abfüllmaschine = 6
+    const produktionsListe = [
+        "Milchkocher 1", "Milchkocher 2", "Milchkocher 3", "Sahnemaschine",
+        "Spülmaschine", "Abfüllmaschine"
+    ];
 
     // Temperaturbereiche
     const negTempOptions = Array.from({length: 31}, (_, i) => -30 + i); // -30 .. 0
@@ -380,6 +384,17 @@
         });
     }
 
+    // Textvorlagen je nach Gerät
+    function getVorlageText(geraetName) {
+        if (geraetName === "Abfüllmaschine") {
+            return "Die Abfüllmaschine wurde vollständig demontiert, gereinigt und desinfiziert.";
+        } else if (geraetName === "Spülmaschine") {
+            return "Die Spülmaschine wurde vollständig demontiert, gereinigt und desinfiziert.";
+        } else {
+            return "Das Gerät wurde vollständig zerlegt, gereinigt und desinfiziert.";
+        }
+    }
+
     function buildProduktionTable() {
         const tbody = document.querySelector("#produktionTable tbody");
         tbody.innerHTML = "";
@@ -396,9 +411,10 @@
             const cellRemark = row.insertCell(3);
             const wrapper = document.createElement("div"); wrapper.style.display = "flex"; wrapper.style.gap = "5px"; wrapper.style.alignItems = "center";
             const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "Bemerkung..."; remarkInput.id = `prod_${idx+1}_bemerkungen`; remarkInput.style.flex = "1";
-            const vorlageBtn = document.createElement("button"); vorlageBtn.textContent = "📋 Vorlage"; vorlageBtn.className = "btn-vorlage"; vorlageBtn.title = "Einfügen: Das Gerät wurde vollständig zerlegt, gereinigt und desinfiziert.";
+            const vorlageBtn = document.createElement("button"); vorlageBtn.textContent = "📋 Vorlage"; vorlageBtn.className = "btn-vorlage";
+            // Text dynamisch basierend auf Gerätename
             vorlageBtn.addEventListener("click", () => {
-                remarkInput.value = "Das Gerät wurde vollständig zerlegt, gereinigt und desinfiziert.";
+                remarkInput.value = getVorlageText(geraet);
             });
             wrapper.appendChild(remarkInput);
             wrapper.appendChild(vorlageBtn);
@@ -446,7 +462,7 @@
                 kuerzel: getVal(`ks_${i}_kuerzel`)
             });
         }
-        for (let i=1; i<=4; i++) {
+        for (let i=1; i<=produktionsListe.length; i++) {
             data.geraete.prod.push({
                 kontrolliert: getCheck(`prod_${i}_kontrolliert`),
                 gereinigt: getCheck(`prod_${i}_gereinigt`),
@@ -491,7 +507,7 @@
                 setVal(`ks_${i+1}_bemerkungen`, data.geraete.ks[i].bemerkungen);
                 setVal(`ks_${i+1}_kuerzel`, data.geraete.ks[i].kuerzel);
             }
-            for (let i=0; i<data.geraete.prod.length && i<4; i++) {
+            for (let i=0; i<data.geraete.prod.length && i<produktionsListe.length; i++) {
                 setCheck(`prod_${i+1}_kontrolliert`, data.geraete.prod[i].kontrolliert);
                 setCheck(`prod_${i+1}_gereinigt`, data.geraete.prod[i].gereinigt);
                 setVal(`prod_${i+1}_bemerkungen`, data.geraete.prod[i].bemerkungen);
