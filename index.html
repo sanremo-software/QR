@@ -139,7 +139,7 @@
         }
         .input-kuerzel { width: 70px; text-align: center; }
         .temp-select {
-            width: 70px;
+            width: 80px;
             padding: 5px;
             border-radius: 20px;
             border: 1px solid #cbdcd0;
@@ -250,6 +250,17 @@
         <div class="card-title">🧊 Kühlgeräte (0°C – 7°C) · Temperatur (°C)</div>
         <div class="table-wrapper">
             <table class="compact-table" id="kuehlTable">
+                <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Temp. (°C)</th><th>Bemerkung</th><th>Kürzel</th><tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 🍨 EIS VITRINE (Gefriertheke) - neue Sektion -->
+    <div class="card-section">
+        <div class="card-title">🍨 Eisvitrine (Gefriertheke) · Temperatur (°C)</div>
+        <div class="table-wrapper">
+            <table class="compact-table" id="eisVitrineTable">
                 <thead><tr><th>Gerät</th><th>Kontrolle</th><th>Reinigung</th><th>Temp. (°C)</th><th>Bemerkung</th><th>Kürzel</th></tr></thead>
                 <tbody></tbody>
             </table>
@@ -290,14 +301,15 @@
             <input type="text" id="unterschrift" placeholder="Name / digitale Signatur">
         </div>
     </div>
-    <div class="footer-note">✅ Tägliche Kontrolle vor Arbeitsbeginn | Temperaturdokumentation | Vorlagetext für alle Produktionsgeräte</div>
+    <div class="footer-note">✅ Tägliche Kontrolle vor Arbeitsbeginn | Temperaturdokumentation für Tiefkühler, Kühler, Eisvitrine | Vorlagentexte für Produktionsgeräte</div>
 </div>
 
 <script>
     // ========== GERÄTELISTEN ==========
     const tiefkuehlListe = Array.from({length: 8}, (_, i) => `Tiefkühler ${i+1}`);
     const kuehlListe = Array.from({length: 5}, (_, i) => `Kühlschrank ${i+1}`);
-    // Produktionsgeräte: 4 anteriores + Spülmaschine + Abfüllmaschine = 6
+    // Eis Vitrine - eine einzelne Zeile, aber erweiterbar
+    const eisVitrineListe = ["Eisvitrine (Gefriertheke)"];
     const produktionsListe = [
         "Milchkocher 1", "Milchkocher 2", "Milchkocher 3", "Sahnemaschine",
         "Spülmaschine", "Abfüllmaschine"
@@ -327,37 +339,33 @@
         return select;
     }
 
-    // Tabellen dynamisch aufbauen
+    // Tiefkühl Table
     function buildTiefkuehlTable() {
         const tbody = document.querySelector("#tiefkuehlTable tbody");
         tbody.innerHTML = "";
         tiefkuehlListe.forEach((geraet, idx) => {
             const row = tbody.insertRow();
             row.insertCell(0).textContent = geraet;
-            // Kontrolle
             const cellCtrl = row.insertCell(1); cellCtrl.classList.add("checkbox-cell");
             const chkK = document.createElement("input"); chkK.type = "checkbox"; chkK.id = `tf_${idx+1}_kontrolliert`;
             cellCtrl.appendChild(chkK);
-            // Reinigung
             const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
             const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `tf_${idx+1}_gereinigt`;
             cellClean.appendChild(chkR);
-            // Temperatur (negativ)
             const cellTemp = row.insertCell(3);
             const tempSelect = createTempSelect(negTempOptions, "");
             tempSelect.id = `tf_${idx+1}_temp`;
             cellTemp.appendChild(tempSelect);
-            // Bemerkung
             const cellRemark = row.insertCell(4);
             const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "optional..."; remarkInput.id = `tf_${idx+1}_bemerkungen`;
             cellRemark.appendChild(remarkInput);
-            // Kürzel
             const cellKuerzel = row.insertCell(5);
             const kuerzelInput = document.createElement("input"); kuerzelInput.type = "text"; kuerzelInput.classList.add("input-sm","input-kuerzel"); kuerzelInput.placeholder = "KZ"; kuerzelInput.id = `tf_${idx+1}_kuerzel`;
             cellKuerzel.appendChild(kuerzelInput);
         });
     }
 
+    // Kühl Table
     function buildKuehlTable() {
         const tbody = document.querySelector("#kuehlTable tbody");
         tbody.innerHTML = "";
@@ -370,7 +378,6 @@
             const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
             const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `ks_${idx+1}_gereinigt`;
             cellClean.appendChild(chkR);
-            // Temperatur positiv
             const cellTemp = row.insertCell(3);
             const tempSelect = createTempSelect(posTempOptions, "");
             tempSelect.id = `ks_${idx+1}_temp`;
@@ -384,7 +391,33 @@
         });
     }
 
-    // Textvorlagen je nach Gerät
+    // Eis Vitrine Table (Gefriertheke)
+    function buildEisVitrineTable() {
+        const tbody = document.querySelector("#eisVitrineTable tbody");
+        tbody.innerHTML = "";
+        eisVitrineListe.forEach((geraet, idx) => {
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = geraet;
+            const cellCtrl = row.insertCell(1); cellCtrl.classList.add("checkbox-cell");
+            const chkK = document.createElement("input"); chkK.type = "checkbox"; chkK.id = `ev_${idx+1}_kontrolliert`;
+            cellCtrl.appendChild(chkK);
+            const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
+            const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `ev_${idx+1}_gereinigt`;
+            cellClean.appendChild(chkR);
+            const cellTemp = row.insertCell(3);
+            const tempSelect = createTempSelect(negTempOptions, "");
+            tempSelect.id = `ev_${idx+1}_temp`;
+            cellTemp.appendChild(tempSelect);
+            const cellRemark = row.insertCell(4);
+            const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "optional..."; remarkInput.id = `ev_${idx+1}_bemerkungen`;
+            cellRemark.appendChild(remarkInput);
+            const cellKuerzel = row.insertCell(5);
+            const kuerzelInput = document.createElement("input"); kuerzelInput.type = "text"; kuerzelInput.classList.add("input-sm","input-kuerzel"); kuerzelInput.placeholder = "KZ"; kuerzelInput.id = `ev_${idx+1}_kuerzel`;
+            cellKuerzel.appendChild(kuerzelInput);
+        });
+    }
+
+    // Produktion Table mit Vorlage-Buttons
     function getVorlageText(geraetName) {
         if (geraetName === "Abfüllmaschine") {
             return "Die Abfüllmaschine wurde vollständig demontiert, gereinigt und desinfiziert.";
@@ -407,19 +440,16 @@
             const cellClean = row.insertCell(2); cellClean.classList.add("checkbox-cell");
             const chkR = document.createElement("input"); chkR.type = "checkbox"; chkR.id = `prod_${idx+1}_gereinigt`;
             cellClean.appendChild(chkR);
-            // Bemerkung mit Vorlagen-Button
             const cellRemark = row.insertCell(3);
             const wrapper = document.createElement("div"); wrapper.style.display = "flex"; wrapper.style.gap = "5px"; wrapper.style.alignItems = "center";
             const remarkInput = document.createElement("input"); remarkInput.type = "text"; remarkInput.classList.add("input-sm"); remarkInput.placeholder = "Bemerkung..."; remarkInput.id = `prod_${idx+1}_bemerkungen`; remarkInput.style.flex = "1";
             const vorlageBtn = document.createElement("button"); vorlageBtn.textContent = "📋 Vorlage"; vorlageBtn.className = "btn-vorlage";
-            // Text dynamisch basierend auf Gerätename
             vorlageBtn.addEventListener("click", () => {
                 remarkInput.value = getVorlageText(geraet);
             });
             wrapper.appendChild(remarkInput);
             wrapper.appendChild(vorlageBtn);
             cellRemark.appendChild(wrapper);
-            // Kürzel
             const cellKuerzel = row.insertCell(4);
             const kuerzelInput = document.createElement("input"); kuerzelInput.type = "text"; kuerzelInput.classList.add("input-sm","input-kuerzel"); kuerzelInput.placeholder = "KZ"; kuerzelInput.id = `prod_${idx+1}_kuerzel`;
             cellKuerzel.appendChild(kuerzelInput);
@@ -442,7 +472,7 @@
                 muell: { wert: getRadioVal('hygiene_muell'), kuerzel: getVal('hy_muell_kürzel') },
                 personal: { wert: getRadioVal('hygiene_personal'), kuerzel: getVal('hy_personal_kürzel') }
             },
-            geraete: { tf: [], ks: [], prod: [] }
+            geraete: { tf: [], ks: [], ev: [], prod: [] }
         };
         for (let i=1; i<=8; i++) {
             data.geraete.tf.push({
@@ -460,6 +490,16 @@
                 temperatur: getSelectVal(`ks_${i}_temp`),
                 bemerkungen: getVal(`ks_${i}_bemerkungen`),
                 kuerzel: getVal(`ks_${i}_kuerzel`)
+            });
+        }
+        // Eis Vitrine (1)
+        for (let i=1; i<=eisVitrineListe.length; i++) {
+            data.geraete.ev.push({
+                kontrolliert: getCheck(`ev_${i}_kontrolliert`),
+                gereinigt: getCheck(`ev_${i}_gereinigt`),
+                temperatur: getSelectVal(`ev_${i}_temp`),
+                bemerkungen: getVal(`ev_${i}_bemerkungen`),
+                kuerzel: getVal(`ev_${i}_kuerzel`)
             });
         }
         for (let i=1; i<=produktionsListe.length; i++) {
@@ -507,6 +547,13 @@
                 setVal(`ks_${i+1}_bemerkungen`, data.geraete.ks[i].bemerkungen);
                 setVal(`ks_${i+1}_kuerzel`, data.geraete.ks[i].kuerzel);
             }
+            for (let i=0; i<data.geraete.ev.length && i<eisVitrineListe.length; i++) {
+                setCheck(`ev_${i+1}_kontrolliert`, data.geraete.ev[i].kontrolliert);
+                setCheck(`ev_${i+1}_gereinigt`, data.geraete.ev[i].gereinigt);
+                setSelectVal(`ev_${i+1}_temp`, data.geraete.ev[i].temperatur);
+                setVal(`ev_${i+1}_bemerkungen`, data.geraete.ev[i].bemerkungen);
+                setVal(`ev_${i+1}_kuerzel`, data.geraete.ev[i].kuerzel);
+            }
             for (let i=0; i<data.geraete.prod.length && i<produktionsListe.length; i++) {
                 setCheck(`prod_${i+1}_kontrolliert`, data.geraete.prod[i].kontrolliert);
                 setCheck(`prod_${i+1}_gereinigt`, data.geraete.prod[i].gereinigt);
@@ -521,7 +568,7 @@
     function getCheck(id) { let el = document.getElementById(id); return el ? el.checked : false; }
     function getVal(id) { let el = document.getElementById(id); return el ? el.value : ''; }
     function getSelectVal(id) { let el = document.getElementById(id); return el ? el.value : ''; }
-    function setVal(id, val) { let el = document.getElementById(id); if(el) el.value = val || ''; }
+    function setVal(id, val) { let el = document.getElementById(id); if(el) el.value = (val !== undefined && val !== null) ? val : ''; }
     function setCheck(id, val) { let el = document.getElementById(id); if(el) el.checked = val === true; }
     function setSelectVal(id, val) { let el = document.getElementById(id); if(el && val !== undefined && val !== "") el.value = val; }
     function setRadioVal(name, val) { let radios = document.getElementsByName(name); for(let r of radios) if(r.value === val) r.checked = true; }
@@ -549,13 +596,14 @@
     function loadFromLocal() {
         let saved = localStorage.getItem('Sanremo_HACCP_App');
         if(!saved) { alert('Kein gespeichertes Protokoll.'); return; }
-        try { restoreData(JSON.parse(saved)); alert('📋 Geladen'); } catch(e) { alert('Fehler'); }
+        try { restoreData(JSON.parse(saved)); alert('📋 Geladen'); } catch(e) { alert('Fehler beim Laden'); }
     }
     function printOptimized() { window.print(); }
 
     function init() {
         buildTiefkuehlTable();
         buildKuehlTable();
+        buildEisVitrineTable();
         buildProduktionTable();
         refreshDateTimeNow();
         document.getElementById('saveBtn').addEventListener('click', saveToLocal);
