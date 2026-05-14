@@ -1,1 +1,731 @@
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>HACCP Protokoll | Eiscafé Sanremo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #eef2f5;
+            margin: 0;
+            padding: 24px 16px;
+            color: #1a2c3e;
+        }
+
+        .protocol-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            padding: 24px 28px;
+            transition: all 0.2s;
+        }
+
+        @media (max-width: 780px) {
+            .protocol-container {
+                padding: 18px 14px;
+            }
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 3px solid #d4af37;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+        }
+
+        .title-section h1 {
+            font-size: 1.9rem;
+            margin: 0 0 6px 0;
+            color: #2c3e2f;
+            letter-spacing: -0.3px;
+        }
+
+        .title-section p {
+            margin: 0;
+            color: #5d6e5c;
+            font-weight: 500;
+        }
+
+        .datetime-box {
+            background: #f8fafc;
+            padding: 10px 18px;
+            border-radius: 40px;
+            box-shadow: inset 0 0 0 1px #e2e8f0, 0 1px 2px rgba(0,0,0,0.02);
+            text-align: right;
+        }
+
+        .datetime-box label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2c6e4f;
+        }
+
+        .datetime-fields {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            margin-top: 6px;
+        }
+
+        .datetime-fields input {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 28px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .verant-section {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .verant-field {
+            background: #fef9e6;
+            padding: 6px 14px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verant-field span {
+            font-weight: 700;
+        }
+
+        input, textarea, button {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 28px 0;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            border: none;
+            background: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e3a2f;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-primary {
+            background: #2b5e3b;
+            color: white;
+            border: none;
+            box-shadow: 0 2px 6px rgba(43,94,59,0.2);
+        }
+
+        .btn-primary:hover {
+            background: #1f4a2e;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            background: #eef2ff;
+            border-color: #8ba888;
+        }
+
+        .section-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            margin-bottom: 32px;
+            border: 1px solid #e9edf2;
+            overflow: hidden;
+        }
+
+        .section-title {
+            background: #f7f9fc;
+            padding: 14px 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-bottom: 2px solid #dce3e9;
+            color: #1f4f2d;
+            letter-spacing: -0.2px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 0 0 12px 0;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 560px;
+        }
+
+        .control-table th {
+            background: #f1f5f0;
+            text-align: center;
+            padding: 12px 8px;
+            font-weight: 700;
+            border-bottom: 1px solid #dce3e9;
+            color: #2c4b32;
+        }
+
+        .control-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #edf2f7;
+            vertical-align: middle;
+        }
+
+        .control-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .checkbox-cell {
+            text-align: center;
+            width: 70px;
+        }
+
+        .checkbox-cell input {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #2b5e3b;
+        }
+
+        input.text-input {
+            width: 100%;
+            padding: 8px 8px;
+            border: 1px solid #cfdee9;
+            border-radius: 14px;
+            background: #ffffff;
+            font-size: 0.8rem;
+            transition: 0.1s;
+        }
+
+        input.text-input:focus {
+            border-color: #8fbc8b;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(47, 109, 58, 0.2);
+        }
+
+        .hygiene-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hygiene-table th, .hygiene-table td {
+            padding: 12px 12px;
+            border-bottom: 1px solid #eef2f8;
+            text-align: left;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .radio-group label {
+            margin-right: 8px;
+            font-weight: normal;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .kürzel-input {
+            width: 100px;
+        }
+
+        .remarks-area {
+            margin: 16px 20px 20px 20px;
+        }
+
+        .remarks-area textarea {
+            width: 100%;
+            border-radius: 20px;
+            border: 1px solid #cfdee9;
+            padding: 14px 18px;
+            font-size: 0.9rem;
+            min-height: 100px;
+        }
+
+        .signature-line {
+            margin: 20px 20px 24px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-top: 1px dashed #cad5e0;
+            padding-top: 20px;
+        }
+
+        .signature-line input {
+            flex: 2;
+            min-width: 220px;
+            border: none;
+            border-bottom: 2px solid #b9cfb0;
+            background: #fefef7;
+            padding: 10px 8px;
+            font-size: 1rem;
+        }
+
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 16px;
+            color: #6c7a6e;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .protocol-container {
+                box-shadow: none;
+                padding: 12px;
+                max-width: 100%;
+            }
+            .action-bar, .btn, .datetime-box button {
+                display: none;
+            }
+            .control-table th, .control-table td {
+                border: 1px solid #ccc;
+            }
+            .checkbox-cell input {
+                transform: scale(0.9);
+            }
+            .signature-line input {
+                border-bottom: 1px solid black;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="protocol-container">
+    <div class="header">
+        <div class="title-section">
+            <h1>🍦 HACCP – Hygiene- & Kontrollprotokoll</h1>
+            <p>Eiscafé Sanremo · Tägliche Morgenkontrolle (vor Arbeitsbeginn)</p>
+        </div>
+        <div class="datetime-box">
+            <div class="datetime-fields">
+                <div><label>📅 Datum:</label> <input type="date" id="protocolDate" style="font-weight:500;"></div>
+                <div><label>⏱️ Uhrzeit:</label> <input type="time" id="protocolTime" step="60"></div>
+                <button type="button" id="refreshDateTimeBtn" class="btn" style="background:#eef2f0; padding:4px 12px;">🔄 Jetzt</button>
+            </div>
+        </div>
+    </div>
+    <div class="verant-section">
+        <div class="verant-field">
+            <span>🧑‍🍳 Verantwortlich:</span>
+            <input type="text" id="verantwortlich" value="Paolo" style="border:1px solid #d4e0d4; border-radius: 40px; padding: 6px 14px; background: #fffef5;">
+        </div>
+        <div class="action-bar">
+            <button type="button" id="saveBtn" class="btn btn-primary">💾 Protokoll speichern</button>
+            <button type="button" id="loadBtn" class="btn btn-outline">📂 Letztes laden</button>
+            <button type="button" id="resetBtn" class="btn btn-outline">🗑️ Alles zurücksetzen</button>
+            <button type="button" id="printBtn" class="btn btn-outline">🖨️ Drucken / PDF</button>
+        </div>
+    </div>
+
+    <!-- Tiefkühlgeräte -->
+    <div class="section-card">
+        <div class="section-title">❄️ Tiefkühlgeräte (Temp. ≤ -18°C)</div>
+        <div class="table-wrapper">
+            <table class="control-table">
+                <thead>
+                <tr><th>Gerät</th><th>Kontrolliert</th><th>Gereinigt</th><th>Bemerkungen</th><th>Kürzel</th></tr>
+                </thead>
+                <tbody id="tiefkuehlTable">
+                    <!-- 8 rows will be injected via JS but built directly for clarity and full ID control -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Kühlgeräte -->
+    <div class="section-card">
+        <div class="section-title">🧊 Kühlgeräte (Temp. 0°C – 7°C)</div>
+        <div class="table-wrapper">
+            <table class="control-table">
+                <thead><tr><th>Gerät</th><th>Kontrolliert</th><th>Gereinigt</th><th>Bemerkungen</th><th>Kürzel</th></tr></thead>
+                <tbody id="kuehlTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Produktionsgeräte -->
+    <div class="section-card">
+        <div class="section-title">⚙️ Produktionsgeräte</div>
+        <div class="table-wrapper">
+            <table class="control-table">
+                <thead><tr><th>Gerät</th><th>Kontrolliert</th><th>Gereinigt</th><th>Bemerkungen</th><th>Kürzel</th></tr></thead>
+                <tbody id="produktionTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Allgemeine Hygiene -->
+    <div class="section-card">
+        <div class="section-title">🧼 Allgemeine Hygiene</div>
+        <div class="table-wrapper">
+            <table class="hygiene-table">
+                <thead><tr><th>Kontrolle</th><th>Ja / Nein</th><th>Kürzel (Mitarbeiter)</th></tr></thead>
+                <tbody>
+                    <tr><td>🧽 Arbeitsflächen sauber</td><td><div class="radio-group"><label><input type="radio" name="hygiene_arbeit" value="ja"> Ja</label><label><input type="radio" name="hygiene_arbeit" value="nein"> Nein</label></div></td><td><input type="text" class="text-input kürzel-input" id="hy_arbeit_kürzel" placeholder="Initialen"></td></tr>
+                    <tr><td>🧹 Fußboden sauber</td><td><div class="radio-group"><label><input type="radio" name="hygiene_boden" value="ja"> Ja</label><label><input type="radio" name="hygiene_boden" value="nein"> Nein</label></div></td><td><input type="text" class="text-input kürzel-input" id="hy_boden_kürzel" placeholder="Initialen"></td></tr>
+                    <tr><td>🗑️ Müll entsorgt</td><td><div class="radio-group"><label><input type="radio" name="hygiene_muell" value="ja"> Ja</label><label><input type="radio" name="hygiene_muell" value="nein"> Nein</label></div></td><td><input type="text" class="text-input kürzel-input" id="hy_muell_kürzel" placeholder="Initialen"></td></tr>
+                    <tr><td>🧴 Personalhygiene kontrolliert (Hände, Kleidung)</td><td><div class="radio-group"><label><input type="radio" name="hygiene_personal" value="ja"> Ja</label><label><input type="radio" name="hygiene_personal" value="nein"> Nein</label></div></td><td><input type="text" class="text-input kürzel-input" id="hy_personal_kürzel" placeholder="Initialen"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bemerkungen & Unterschrift -->
+    <div class="section-card">
+        <div class="section-title">📝 Zusätzliche Bemerkungen</div>
+        <div class="remarks-area">
+            <textarea id="globalBemerkungen" placeholder="Allgemeine Hinweise, Abweichungen, Maßnahmen, Temperaturen usw."></textarea>
+        </div>
+        <div class="signature-line">
+            <span style="font-weight: 600;">✍️ Unterschrift (Verantwortlicher)</span>
+            <input type="text" id="unterschrift" placeholder="Name oder digitale Signatur">
+        </div>
+    </div>
+    <div class="footer-note">
+        ✅ Tägliche Kontrolle vor Arbeitsbeginn – alle Geräte prüfen und reinigen dokumentieren | Datum & Uhrzeit automatisch
+    </div>
+</div>
+
+<script>
+    // ---------- DATENMODELL & INIT ----------
+    // Definition der Geräte
+    const tiefkuehlGeraete = Array.from({length: 8}, (_, i) => `Tiefkühler ${i+1}`);
+    const kuehlGeraete = Array.from({length: 5}, (_, i) => `Kühlschrank ${i+1}`);
+    const produktionsGeraete = ["Milchkocher 1", "Milchkocher 2", "Milchkocher 3", "Sahnemaschine"];
+
+    // IDs dynamisch generieren & Tabellenaufbau
+    function buildTable(containerId, geraeteList, prefix) {
+        const tbody = document.getElementById(containerId);
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        geraeteList.forEach((geraet, idx) => {
+            const row = tbody.insertRow();
+            const cellName = row.insertCell(0);
+            cellName.textContent = geraet;
+            cellName.style.fontWeight = '500';
+            // Kontrolliert checkbox
+            const cellCtrl = row.insertCell(1);
+            cellCtrl.classList.add('checkbox-cell');
+            const chkKontrolle = document.createElement('input');
+            chkKontrolle.type = 'checkbox';
+            chkKontrolle.id = `${prefix}_${idx+1}_kontrolliert`;
+            cellCtrl.appendChild(chkKontrolle);
+            // Gereinigt checkbox
+            const cellClean = row.insertCell(2);
+            cellClean.classList.add('checkbox-cell');
+            const chkGereinigt = document.createElement('input');
+            chkGereinigt.type = 'checkbox';
+            chkGereinigt.id = `${prefix}_${idx+1}_gereinigt`;
+            cellClean.appendChild(chkGereinigt);
+            // Bemerkungen input
+            const cellRemark = row.insertCell(3);
+            const remarkInput = document.createElement('input');
+            remarkInput.type = 'text';
+            remarkInput.classList.add('text-input');
+            remarkInput.placeholder = 'optional...';
+            remarkInput.id = `${prefix}_${idx+1}_bemerkungen`;
+            cellRemark.appendChild(remarkInput);
+            // Kürzel input
+            const cellKuerzel = row.insertCell(4);
+            const kuerzelInput = document.createElement('input');
+            kuerzelInput.type = 'text';
+            kuerzelInput.classList.add('text-input');
+            kuerzelInput.placeholder = 'Kürzel';
+            kuerzelInput.id = `${prefix}_${idx+1}_kuerzel`;
+            cellKuerzel.appendChild(kuerzelInput);
+        });
+    }
+
+    // Funktion zum Erstellen aller dynamischen Tabellen
+    function initTables() {
+        buildTable('tiefkuehlTable', tiefkuehlGeraete, 'tf');
+        buildTable('kuehlTable', kuehlGeraete, 'ks');
+        buildTable('produktionTable', produktionsGeraete, 'prod');
+    }
+
+    // Datum/Uhrzeit automatisch setzen + Button
+    function setAutoDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const timeStr = `${hours}:${minutes}`;
+        const dateInput = document.getElementById('protocolDate');
+        const timeInput = document.getElementById('protocolTime');
+        if (dateInput && !dateInput.value) dateInput.value = dateStr;
+        if (timeInput && !timeInput.value) timeInput.value = timeStr;
+    }
+
+    function refreshDateTimeNow() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        document.getElementById('protocolDate').value = `${year}-${month}-${day}`;
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('protocolTime').value = `${hours}:${minutes}`;
+    }
+
+    // Sammle gesamte Formulardaten (alle Werte)
+    function collectFormData() {
+        const data = {
+            meta: {
+                datum: document.getElementById('protocolDate').value,
+                uhrzeit: document.getElementById('protocolTime').value,
+                verantwortlich: document.getElementById('verantwortlich').value,
+                unterschrift: document.getElementById('unterschrift').value,
+                globalBemerkungen: document.getElementById('globalBemerkungen').value
+            },
+            hygiene: {
+                arbeit: { wert: getRadioValue('hygiene_arbeit'), kuerzel: document.getElementById('hy_arbeit_kürzel')?.value || '' },
+                boden: { wert: getRadioValue('hygiene_boden'), kuerzel: document.getElementById('hy_boden_kürzel')?.value || '' },
+                muell: { wert: getRadioValue('hygiene_muell'), kuerzel: document.getElementById('hy_muell_kürzel')?.value || '' },
+                personal: { wert: getRadioValue('hygiene_personal'), kuerzel: document.getElementById('hy_personal_kürzel')?.value || '' }
+            },
+            geraete: {
+                tiefkuehler: [],
+                kuehlschrank: [],
+                produktion: []
+            }
+        };
+        // Tiefkühler (8)
+        for (let i = 1; i <= 8; i++) {
+            data.geraete.tiefkuehler.push({
+                kontrolliert: document.getElementById(`tf_${i}_kontrolliert`)?.checked || false,
+                gereinigt: document.getElementById(`tf_${i}_gereinigt`)?.checked || false,
+                bemerkungen: document.getElementById(`tf_${i}_bemerkungen`)?.value || '',
+                kuerzel: document.getElementById(`tf_${i}_kuerzel`)?.value || ''
+            });
+        }
+        // Kühlschränke (5)
+        for (let i = 1; i <= 5; i++) {
+            data.geraete.kuehlschrank.push({
+                kontrolliert: document.getElementById(`ks_${i}_kontrolliert`)?.checked || false,
+                gereinigt: document.getElementById(`ks_${i}_gereinigt`)?.checked || false,
+                bemerkungen: document.getElementById(`ks_${i}_bemerkungen`)?.value || '',
+                kuerzel: document.getElementById(`ks_${i}_kuerzel`)?.value || ''
+            });
+        }
+        // Produktion: Milchkocher 1-3, Sahnemaschine index 1..4
+        const prodNames = ['milch1', 'milch2', 'milch3', 'sahne'];
+        for (let i = 1; i <= 4; i++) {
+            data.geraete.produktion.push({
+                kontrolliert: document.getElementById(`prod_${i}_kontrolliert`)?.checked || false,
+                gereinigt: document.getElementById(`prod_${i}_gereinigt`)?.checked || false,
+                bemerkungen: document.getElementById(`prod_${i}_bemerkungen`)?.value || '',
+                kuerzel: document.getElementById(`prod_${i}_kuerzel`)?.value || ''
+            });
+        }
+        return data;
+    }
+
+    function getRadioValue(name) {
+        const radios = document.getElementsByName(name);
+        for (let radio of radios) {
+            if (radio.checked) return radio.value;
+        }
+        return '';
+    }
+
+    // Daten in Formular wiederherstellen
+    function restoreFormData(data) {
+        if (!data) return;
+        // Meta
+        if (data.meta) {
+            if (data.meta.datum) document.getElementById('protocolDate').value = data.meta.datum;
+            if (data.meta.uhrzeit) document.getElementById('protocolTime').value = data.meta.uhrzeit;
+            if (data.meta.verantwortlich) document.getElementById('verantwortlich').value = data.meta.verantwortlich;
+            if (data.meta.unterschrift) document.getElementById('unterschrift').value = data.meta.unterschrift;
+            if (data.meta.globalBemerkungen) document.getElementById('globalBemerkungen').value = data.meta.globalBemerkungen;
+        }
+        // Hygiene
+        if (data.hygiene) {
+            setRadioValue('hygiene_arbeit', data.hygiene.arbeit.wert);
+            setRadioValue('hygiene_boden', data.hygiene.boden.wert);
+            setRadioValue('hygiene_muell', data.hygiene.muell.wert);
+            setRadioValue('hygiene_personal', data.hygiene.personal.wert);
+            if (document.getElementById('hy_arbeit_kürzel')) document.getElementById('hy_arbeit_kürzel').value = data.hygiene.arbeit.kuerzel || '';
+            if (document.getElementById('hy_boden_kürzel')) document.getElementById('hy_boden_kürzel').value = data.hygiene.boden.kuerzel || '';
+            if (document.getElementById('hy_muell_kürzel')) document.getElementById('hy_muell_kürzel').value = data.hygiene.muell.kuerzel || '';
+            if (document.getElementById('hy_personal_kürzel')) document.getElementById('hy_personal_kürzel').value = data.hygiene.personal.kuerzel || '';
+        }
+        // Tiefkühler wiederherstellen
+        if (data.geraete && data.geraete.tiefkuehler) {
+            for (let i = 0; i < data.geraete.tiefkuehler.length && i < 8; i++) {
+                const idx = i+1;
+                const chkK = document.getElementById(`tf_${idx}_kontrolliert`);
+                const chkG = document.getElementById(`tf_${idx}_gereinigt`);
+                if (chkK) chkK.checked = data.geraete.tiefkuehler[i].kontrolliert;
+                if (chkG) chkG.checked = data.geraete.tiefkuehler[i].gereinigt;
+                const bem = document.getElementById(`tf_${idx}_bemerkungen`);
+                if (bem) bem.value = data.geraete.tiefkuehler[i].bemerkungen || '';
+                const kuerzel = document.getElementById(`tf_${idx}_kuerzel`);
+                if (kuerzel) kuerzel.value = data.geraete.tiefkuehler[i].kuerzel || '';
+            }
+        }
+        // Kühlschrank
+        if (data.geraete && data.geraete.kuehlschrank) {
+            for (let i = 0; i < data.geraete.kuehlschrank.length && i < 5; i++) {
+                const idx = i+1;
+                const chkK = document.getElementById(`ks_${idx}_kontrolliert`);
+                const chkG = document.getElementById(`ks_${idx}_gereinigt`);
+                if (chkK) chkK.checked = data.geraete.kuehlschrank[i].kontrolliert;
+                if (chkG) chkG.checked = data.geraete.kuehlschrank[i].gereinigt;
+                const bem = document.getElementById(`ks_${idx}_bemerkungen`);
+                if (bem) bem.value = data.geraete.kuehlschrank[i].bemerkungen || '';
+                const kuerzel = document.getElementById(`ks_${idx}_kuerzel`);
+                if (kuerzel) kuerzel.value = data.geraete.kuehlschrank[i].kuerzel || '';
+            }
+        }
+        // Produktion
+        if (data.geraete && data.geraete.produktion) {
+            for (let i = 0; i < data.geraete.produktion.length && i < 4; i++) {
+                const idx = i+1;
+                const chkK = document.getElementById(`prod_${idx}_kontrolliert`);
+                const chkG = document.getElementById(`prod_${idx}_gereinigt`);
+                if (chkK) chkK.checked = data.geraete.produktion[i].kontrolliert;
+                if (chkG) chkG.checked = data.geraete.produktion[i].gereinigt;
+                const bem = document.getElementById(`prod_${idx}_bemerkungen`);
+                if (bem) bem.value = data.geraete.produktion[i].bemerkungen || '';
+                const kuerzel = document.getElementById(`prod_${idx}_kuerzel`);
+                if (kuerzel) kuerzel.value = data.geraete.produktion[i].kuerzel || '';
+            }
+        }
+    }
+
+    function setRadioValue(name, value) {
+        const radios = document.getElementsByName(name);
+        for (let radio of radios) {
+            if (radio.value === value) {
+                radio.checked = true;
+                break;
+            }
+        }
+    }
+
+    // Reset aller Eingaben (leere Werte, checkboxes aus, radios aus)
+    function resetAllFields() {
+        // alle checkboxes generisch
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('input[type="text"]').forEach(inp => {
+            if (inp.id !== 'verantwortlich' && inp.id !== 'unterschrift' && !inp.id.includes('date') && !inp.id.includes('time') && inp.id !== 'protocolDate' && inp.id !== 'protocolTime') {
+                inp.value = '';
+            }
+        });
+        document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+        document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+        // Verantwortlich bleibt Paolo default? setze default sinnvoll
+        document.getElementById('verantwortlich').value = 'Paolo';
+        document.getElementById('unterschrift').value = '';
+        document.getElementById('globalBemerkungen').value = '';
+        // Hygiene Kürzel zurücksetzen
+        const hyKeys = ['hy_arbeit_kürzel', 'hy_boden_kürzel', 'hy_muell_kürzel', 'hy_personal_kürzel'];
+        hyKeys.forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = ''; });
+        // datum und uhrzeit wieder aktualisieren (auf aktuellen moment)
+        refreshDateTimeNow();
+    }
+
+    // localStorage speichern
+    function saveToLocal() {
+        const fullData = collectFormData();
+        localStorage.setItem('SanremoHACCP_Protokoll', JSON.stringify(fullData));
+        alert('✅ Protokoll wurde gespeichert! (Datum/Uhrzeit gesichert)');
+    }
+
+    function loadFromLocal() {
+        const saved = localStorage.getItem('SanremoHACCP_Protokoll');
+        if (!saved) {
+            alert('Kein gespeichertes Protokoll gefunden.');
+            return;
+        }
+        try {
+            const data = JSON.parse(saved);
+            restoreFormData(data);
+            alert('📋 Letztes Protokoll erfolgreich geladen.');
+        } catch(e) { alert('Fehler beim Laden'); }
+    }
+
+    // Print (PDF / Druck)
+    function printProtocol() {
+        window.print();
+    }
+
+    // Event binding + Initialisierung
+    document.addEventListener('DOMContentLoaded', () => {
+        initTables();          // erstellt alle dynamischen Tabellen mit IDs
+        setAutoDateTime();     // setzt automatisch datum & uhrzeit (falls leer)
+        // Zusätzlich falls kein Datum gesetzt war nochmal erzwingen
+        if (!document.getElementById('protocolDate').value) refreshDateTimeNow();
+        
+        // Button Listener
+        document.getElementById('saveBtn').addEventListener('click', saveToLocal);
+        document.getElementById('loadBtn').addEventListener('click', loadFromLocal);
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('Wirklich alle Kontrollfelder zurücksetzen? Aktuelles Protokoll geht verloren.')) {
+                resetAllFields();
+            }
+        });
+        document.getElementById('printBtn').addEventListener('click', printProtocol);
+        document.getElementById('refreshDateTimeBtn').addEventListener('click', () => {
+            refreshDateTimeNow();
+        });
+        // Optional: autosave nicht nötig - manuell
+    });
+</script>
+</body>
+</html>
